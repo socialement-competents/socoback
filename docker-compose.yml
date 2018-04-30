@@ -1,0 +1,38 @@
+version: '2'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: integration-tests.Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/test
+      - EMAIL_HOST=mailcatcher
+      - EMAIL_PORT=25
+      - NODE_ENV=development
+    depends_on: 
+      - mongo
+      - mailcatcher
+    volumes:
+      - .:/tmp/app/
+      - /tmp/app/node_modules
+    networks:
+      - all
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - all
+
+  mailcatcher:
+    image: tophfr/mailcatcher
+    ports:
+      - 1080:80
+    networks:
+      - all
+
+networks:
+  all:

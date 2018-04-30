@@ -1,0 +1,10 @@
+apps:
+  - script   : 'build/bundle.js'
+    name     : 'webserver'
+    exec_mode: 'cluster'
+    watch    : true
+    instances: 2
+  - script      : lib/pm2-notifier.js
+    merge_logs  : true
+    name        : pm2-notifier
+    out_file    : /tmp/pm2-notifier.log

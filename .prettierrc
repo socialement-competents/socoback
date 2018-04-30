@@ -1,0 +1,26 @@
+{
+  "overrides": [
+    {
+      "files": ["{.*,*}.js"],
+      "options": {
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "semi": false
+      }
+    },
+    {
+      "files": ["{.*,*}.ts"],
+      "options": {
+        "singleQuote": true,
+        "trailingComma": "none",
+        "semi": false
+      }
+    },
+    {
+      "files": ["*.scss"],
+      "options": {
+        "singleQuote": true
+      }
+    }
+  ]
+}

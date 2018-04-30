@@ -1,0 +1,33 @@
+POST http://localhost:3000/api/users HTTP/1.1
+content-type: application/json
+
+{
+    "firstname": "Theophile",
+    "lastname": "Cousin",
+    "email": "cousin.theophile@gmail.com",
+    "password": "Reu974ion"
+}
+
+POST http://localhost:3000/api/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "cousin.theophile@gmail.com",
+    "password": "Reu974ion"
+}
+
+GET http://localhost:3000/ HTTP/1.1
+content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhNjlkYjExMjQ2YmY0MjA0ZTA1NDcyYiIsImZpcnN0bmFtZSI6InRoZW9waGlsZSIsImxhc3RuYW1lIjoiY291c2luIiwiZXhwIjoxNTIyMDcyNTU2LjgyOSwiaWF0IjoxNTE2ODkyMTU2fQ.Ui4cJ8mhACPGprDTw-CvZXffNGo8IWFrC-C0isHr_3k
+
+
+POST http://localhost:3000/api/mails/public/ HTTP/1.1
+content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhZTVmNTY1YzE0NGE1OTQyZTM4OTRmNSIsImZpcnN0bmFtZSI6InRoZW9waGlsZSIsImxhc3RuYW1lIjoiY291c2luIiwiZXhwIjoxNTMwMjA0MDE0LjEwNSwiaWF0IjoxNTI1MDIwMDE0fQ.APT3TUIw0sRPKD_c1wm1q9xaSGfPRURQAuTIPd82P1w
+
+{
+    "subject": "test",
+    "to": "guenaelanselme@gmail.com",
+    "text": "Ceci est un test"
+}
+

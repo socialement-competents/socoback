@@ -1,0 +1,18 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "max-len": [1, 120, 2, {"ignoreComments": true}],
+    "react/prop-types": [2],
+    "no-extra-semi": 0,
+    "comma-dangle": ["error", "never"],
+    "semi": ["error", "never"],
+    "react/forbid-prop-types": [1,{ "forbid":["any", "array"]}]
+  },
+  "extends": ["airbnb-base","eslint:recommended","plugin:react/recommended"],
+  "env": {
+    "browser": true
+  },
+  "plugins": [
+    "react"
+  ]
+}

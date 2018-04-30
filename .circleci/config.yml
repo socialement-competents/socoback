@@ -1,0 +1,32 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+dependencies:
+  pre:
+    - sudo pip install docker-compose
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Integrations tests 
+          command: docker-compose run -p 3000 --rm app npm run test
+          volumes:
+            - $CIRCLE_TEST_REPORTS/junit:/tmp/app/reports/junit
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
+      # - run:
+      #     name: Push to docker hub
+      #     command: |
+      #       if [ "${CIRCLE_BRANCH}" == "master" ]; then
+      #         docker tag project_app theolebabtou/app
+      #         docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD && docker push theolebabtou/app
+      #       fi
+      
