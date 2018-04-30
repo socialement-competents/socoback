@@ -6,6 +6,7 @@ version: 2
 dependencies:
   pre:
     - sudo pip install docker-compose
+    - sudo pip install codecov
 jobs:
   build:
     machine: true
