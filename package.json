@@ -11,6 +11,7 @@
     "build": "webpack --display-error-details",
     "test": "jest --ci --testResultsProcessor='jest-junit' --forceExit --coverage --verbose",
     "unit": "jest --watchAll",
+    "ccov": "codecov -f coverage/coverage-final.json 8118d684-1a4b-428c-8b43-35d6faf9bd53",
     "test:coverage": "jest --coverage",
     "prettier": "prettier --config .prettierrc --write 'webpack.config.js' 'src/**/*.{js,ts}'",
     "prettier-check": "prettier -l --config .prettierrc 'webpack.config.js' 'src/**/*.{js,ts}'"
@@ -78,6 +79,7 @@
     "@types/socket.io": "1.4.33",
     "@types/supertest": "2.0.4",
     "chai": "4.1.2",
+    "codecov": "3.0.1",
     "eslint-config-prettier": "2.9.0",
     "jest": "21.2.1",
     "jest-junit": "^3.7.0",
