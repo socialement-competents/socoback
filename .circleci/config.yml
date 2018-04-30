@@ -6,7 +6,6 @@ version: 2
 dependencies:
   pre:
     - sudo pip install docker-compose
-    - sudo pip install codecov
 jobs:
   build:
     machine: true
@@ -14,7 +13,7 @@ jobs:
       - checkout
       - run:
           name: Integrations tests 
-          command: docker-compose run -p 3000 --rm app npm run test
+          command: docker-compose run -p 3000 --rm app npm run test:ci
           volumes:
             - $CIRCLE_TEST_REPORTS/junit:/tmp/app/reports/junit
           environment:
@@ -23,9 +22,6 @@ jobs:
           path: reports/junit
       - store_artifacts:
           path: reports/junit
-      - run:
-          name: Upload codecov
-          command: npm run ccov
       # - run:
       #     name: Push to docker hub
       #     command: |
