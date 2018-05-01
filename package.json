@@ -12,7 +12,7 @@
     "test": "jest --coverage",
     "test:ci": "jest --coverage --forceExit --testResultsProcessor=jest-junit --ci --verbose",
     "unit": "jest --watchAll",
-    "ccov": "codecov -f $COVERAGE_FILE -t $CODECOV_TOKEN",
+    "ccov": "codecov -f coverage/coverage-final.json -t $CODECOV_TOKEN",
     "test:coverage": "jest --coverage",
     "prettier": "prettier --config .prettierrc --write 'webpack.config.js' 'src/**/*.{js,ts}'",
     "prettier-check": "prettier -l --config .prettierrc 'webpack.config.js' 'src/**/*.{js,ts}'"
