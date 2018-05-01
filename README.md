@@ -1,7 +1,8 @@
 ![Node](https://img.shields.io/badge/node-8.11.1-brightgreen.svg)
-
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![CircleCI](https://circleci.com/gh/socialement-competents/backathon.svg?style=svg&circle-token=bbf223d9f273a34fbb26ccfbe791657d58674498)](https://circleci.com/gh/socialement-competents/backathon)
+[![CircleCI](https://img.shields.io/circleci/project/github/socialement-competents/hackafront.svg)](https://circleci.com/gh/socialement-competents/hackafront)
+[![Code coverage with Codecov](https://img.shields.io/codecov/c/github/socialement-competents/backathon.svg)](https://codecov.io/gh/socialement-competents/backathon)
+![No license](https://img.shields.io/github/license/socialement-competents/backathon.svg)
 
 This repo is functionality complete — PRs and issues welcome!
 
