@@ -21,7 +21,7 @@ jobs:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
       - run:
           name: Publish code coverage
-          command: npm i codecov && npm run ccov
+          command: sudo npm i codecov && npm run ccov
           environment:
             COVERAGE_FILE: "$CIRCLE_TEST_REPORTS/coverage/coverage-final.json"
       - store_test_results:
