@@ -6,6 +6,7 @@ version: 2
 dependencies:
   pre:
     - sudo pip install docker-compose
+    - npm install yarn -g
 jobs:
   build:
     machine: true
