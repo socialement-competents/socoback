@@ -12,12 +12,15 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Integrations tests 
-          command: docker-compose run -p 3000 --rm app npm run test
+          name: Integrations tests
+          command: docker-compose run -p 3000 --rm app npm run test:ci
           volumes:
             - $CIRCLE_TEST_REPORTS/junit:/tmp/app/reports/junit
           environment:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+      - run:
+          name: Publish code coverage
+          command: sudo pip install codecov && codecov -f ./coverage/coverage-final.json -t $CODECOV_TOKEN
       - store_test_results:
           path: reports/junit
       - store_artifacts:
