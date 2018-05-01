@@ -6,13 +6,12 @@ version: 2
 dependencies:
   pre:
     - sudo pip install docker-compose
-    - npm install yarn -g
 jobs:
   build:
     machine: true
     steps:
       - checkout
-      - run: yarn
+      - run: npm ci
       - run:
           name: Integrations tests
           command: docker-compose run -p 3000 --rm app npm run test:ci
