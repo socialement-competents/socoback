@@ -12,8 +12,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Integrations tests 
-          command: docker-compose run -p 3000 --rm app npm run test:ci
+          name: Integrations tests
+          command: |
+            apt-get update &&
+            apt-get -y install git hg
+            docker-compose run -p 3000 --rm app npm run test:ci
           volumes:
             - $CIRCLE_TEST_REPORTS/junit:/tmp/app/reports/junit
           environment:

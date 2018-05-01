@@ -9,10 +9,10 @@
     "watch:server": "nodemon \"./build/bundle.js\" --watch \"./build\" ",
     "watch:build": "webpack --watch",
     "build": "webpack --display-error-details",
-    "test": "jest --ci --testResultsProcessor='jest-junit' --forceExit --coverage --verbose",
-    "test:ci": "jest --ci --testResultsProcessor='jest-junit' --forceExit --coverage --verbose && npm run ccov",
+    "test": "jest --testResultsProcessor=jest-junit --coverage",
+    "test:ci": "npm run test --ci --verbose && npm run ccov",
     "unit": "jest --watchAll",
-    "ccov": "codecov -f coverage/coverage-final.json 8118d684-1a4b-428c-8b43-35d6faf9bd53",
+    "ccov": "codecov -f coverage/coverage-final.json -t $CODECOV_TOKEN",
     "test:coverage": "jest --coverage",
     "prettier": "prettier --config .prettierrc --write 'webpack.config.js' 'src/**/*.{js,ts}'",
     "prettier-check": "prettier -l --config .prettierrc 'webpack.config.js' 'src/**/*.{js,ts}'"
