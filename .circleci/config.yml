@@ -6,6 +6,7 @@ version: 2
 dependencies:
   pre:
     - sudo pip install docker-compose
+    - sudo pip install codecov
 jobs:
   build:
     machine: true
@@ -21,7 +22,7 @@ jobs:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
       - run:
           name: Publish code coverage
-          command: sudo npm i codecov && npm run ccov
+          command: npm run ccov
           environment:
             COVERAGE_FILE: "$CIRCLE_TEST_REPORTS/coverage/coverage-final.json"
       - store_test_results:
