@@ -17,14 +17,14 @@ jobs:
           command: docker-compose run -p 3000 --rm app npm run test:ci
           volumes:
             - $CIRCLE_TEST_REPORTS/junit:/tmp/app/reports/junit
-            - ./coverage:/tmp/app/reports/coverage
+            - $CIRCLE_TEST_REPORTS/coverage:/tmp/app/coverage
           environment:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
       - run:
           name: Publish code coverage
           command: npm run ccov
           environment:
-            COVERAGE_FILE: "/tmp/app/reports/coverage/coverage-final.json"
+            COVERAGE_FILE: "$CIRCLE_TEST_REPORTS/coverage/coverage-final.json"
       - store_test_results:
           path: reports/junit
       - store_artifacts:
