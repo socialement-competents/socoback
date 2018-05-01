@@ -6,6 +6,8 @@ version: 2
 dependencies:
   pre:
     - sudo pip install docker-compose
+    - sudo pip install git
+    - sudo pip install hg
 jobs:
   build:
     machine: true
@@ -13,10 +15,7 @@ jobs:
       - checkout
       - run:
           name: Integrations tests
-          command: |
-            apt-get update &&
-            apt-get install -y git hg &&
-            docker-compose run -p 3000 --rm app npm run test:ci
+          command: docker-compose run -p 3000 --rm app npm run test:ci
           volumes:
             - $CIRCLE_TEST_REPORTS/junit:/tmp/app/reports/junit
           environment:
