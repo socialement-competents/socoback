@@ -6,7 +6,6 @@ version: 2
 dependencies:
   pre:
     - sudo pip install docker-compose
-    - sudo pip install codecov
 jobs:
   build:
     machine: true
@@ -22,7 +21,7 @@ jobs:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
       - run:
           name: Publish code coverage
-          command: codecov -f $CIRCLE_TEST_REPORTS/coverage/coverage-final.json -t $CODECOV_TOKEN
+          command: sudo pip install codecov && codecov -f $CIRCLE_TEST_REPORTS/coverage/coverage-final.json -t $CODECOV_TOKEN
       - store_test_results:
           path: reports/junit
       - store_artifacts:
