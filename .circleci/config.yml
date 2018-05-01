@@ -6,7 +6,7 @@ version: 2
 dependencies:
   pre:
     - sudo pip install docker-compose
-    - sudo pip install git
+    - npm install -g codecov
 jobs:
   build:
     machine: true
