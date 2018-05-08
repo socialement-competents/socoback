@@ -1,8 +1,8 @@
 {
-  "name": "app",
+  "name": "backathon",
   "version": "1.0.0",
-  "description": "Node backend",
-  "main": "app.js",
+  "description": "Node backend to win the EPSI 2018 Hackaton",
+  "main": "src/index.ts",
   "scripts": {
     "prod": "NODE_ENV=production pm2 start build/bundle.js",
     "start": "npm run build && npm-run-all --parallel watch:build watch:server",
