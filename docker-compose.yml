@@ -1,6 +1,6 @@
 version: '2'
 services:
-  app:
+  integrationtests:
     build:
       context: .
       dockerfile: integration-tests.Dockerfile
@@ -18,21 +18,55 @@ services:
       - .:/tmp/app/
       - /tmp/app/node_modules
     networks:
-      - all
+      - mail
+      - data
+
+  back:
+    build:
+      context: .
+      dockerfile: production.Dockerfile
+    ports:
+      - 3333:3000
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/test
+      - EMAIL_HOST=mailcatcher
+      - EMAIL_PORT=25
+      - NODE_ENV=production
+    depends_on: 
+      - mongo
+      - mailcatcher
+    networks:
+      - mail
+      - data
+      - front
+
+  front:
+    image: socialementcompetents/hackafront
+    environment:
+      - SERVER_HOST=back
+      - SERVER_PORT=3333
+    ports:
+      - 8080:80
+    depends_on: 
+      - back
+    networks:
+      - front
 
   mongo:
     image: mongo
     ports:
       - 27017:27017
     networks:
-      - all
+      - data
 
   mailcatcher:
     image: tophfr/mailcatcher
     ports:
       - 1080:80
     networks:
-      - all
+      - mail
 
 networks:
-  all:
+  front:
+  data:
+  mail:

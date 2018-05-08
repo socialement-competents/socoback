@@ -13,7 +13,7 @@ jobs:
       - checkout
       - run:
           name: Integrations tests
-          command: docker-compose run -p 3000 --rm app npm run test:ci
+          command: docker-compose run -p 3000 --rm integrationtests npm run test:ci
           volumes:
             - $CIRCLE_TEST_REPORTS/junit:/tmp/app/reports/junit
           environment:
