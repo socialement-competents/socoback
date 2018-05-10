@@ -25,11 +25,16 @@ jobs:
           path: reports/junit
       - store_artifacts:
           path: reports/junit
-      # - run:
-      #     name: Push to docker hub
-      #     command: |
-      #       if [ "${CIRCLE_BRANCH}" == "master" ]; then
-      #         docker tag project_app theolebabtou/app
-      #         docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD && docker push theolebabtou/app
-      #       fi
+      - run:
+          name: Push to docker hub
+          environment:
+            IMAGE: socialementcompetents/backathon
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "feat/push-docker" ]; then
+              docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+              docker build -t $IMAGE -f production.Dockerfile .
+              docker tag ${IMAGE}:latest ${IMAGE}:${CIRCLE_SHA1}
+              docker push ${IMAGE}:latest
+              docker push ${IMAGE}:${CIRCLE_SHA1}
+            fi
       
