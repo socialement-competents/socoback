@@ -30,11 +30,25 @@ jobs:
           environment:
             IMAGE: socialementcompetents/backathon
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "feat/push-docker" ]; then
+            if [ "${CIRCLE_BRANCH}" == "master" ] || [ -n "${CIRCLE_TAG}" ]; then
               docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
               docker build -t $IMAGE -f production.Dockerfile .
-              docker tag ${IMAGE}:latest ${IMAGE}:${CIRCLE_SHA1}
               docker push ${IMAGE}:latest
+            fi
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then            
+              docker tag ${IMAGE}:latest ${IMAGE}:${CIRCLE_SHA1}
               docker push ${IMAGE}:${CIRCLE_SHA1}
             fi
-      
+            if [ -n "${CIRCLE_TAG}" ]; then
+              docker tag ${IMAGE}:latest ${IMAGE}:${CIRCLE_TAG}
+              docker push ${IMAGE}:${CIRCLE_TAG}
+            fi
+
+workflows:
+  version: 2
+  test_build:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
