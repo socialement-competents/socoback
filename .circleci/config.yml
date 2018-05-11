@@ -32,12 +32,10 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ] || [ -n "${CIRCLE_TAG}" ]; then
               docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-              docker build -t $IMAGE -f production.Dockerfile .
-              docker push ${IMAGE}:latest
-            fi
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then            
+              docker build -t $IMAGE -f production.Dockerfile .          
               docker tag ${IMAGE}:latest ${IMAGE}:${CIRCLE_SHA1}
               docker push ${IMAGE}:${CIRCLE_SHA1}
+              docker push ${IMAGE}:latest
             fi
             if [ -n "${CIRCLE_TAG}" ]; then
               docker tag ${IMAGE}:latest ${IMAGE}:${CIRCLE_TAG}
