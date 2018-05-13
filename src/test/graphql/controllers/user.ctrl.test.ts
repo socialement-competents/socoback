@@ -22,6 +22,15 @@ describe('user controller', () => {
       }))
   })
 
+  it(`doesn't duplicate users`, async () => {
+    await create(`unique@test.fr`, password, firstname, lastname)
+    const result = await create(`unique@test.fr`, password, firstname, lastname)
+    expect(result.errors).toBeTruthy()
+    const actual = result.errors.email.message
+    const expected = 'is already taken'
+    expect(actual).toBe(expected)
+  })
+
   it('gets an user', async () => {
     const user = await create(`getbyid-${email}`, password, firstname, lastname)
     const id = user['_id']

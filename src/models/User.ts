@@ -1,7 +1,7 @@
 import { Document, model, Model, Schema } from 'mongoose'
 import * as uniqueValidator from 'mongoose-unique-validator'
 import { pbkdf2Sync, randomBytes } from 'crypto'
-import { sign, SignOptions } from 'jsonwebtoken'
+import { sign } from 'jsonwebtoken'
 
 const secret = process.env.SESSION_SECRET
 
@@ -91,12 +91,12 @@ export interface IUser extends Document {
   email: string
   hash: string
   salt: string
-  token?: SignOptions
+  token?: string
   fullname?: string
   isValidated: boolean
   toProfileJSONFor: (user: IUser) => IUser
   toAuthJSON: () => IUser
-  generateJWT: () => SignOptions
+  generateJWT: () => string
   setPassword: (password: string) => void
   validPassword: (password: string) => boolean
 }
