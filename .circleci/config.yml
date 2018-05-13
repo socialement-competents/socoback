@@ -12,6 +12,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Lint
+          command: docker-compose run -p 3000 --rm app yarn lint
+      - run:
           name: Integrations tests
           command: docker-compose run -p 3000 --rm integrationtests npm run test:ci
           volumes:

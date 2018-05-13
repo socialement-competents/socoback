@@ -10,6 +10,7 @@
     "watch:build": "webpack --watch",
     "build": "webpack --display-error-details",
     "test": "jest --coverage",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "test:ci": "jest --coverage --forceExit --testResultsProcessor=jest-junit --ci --verbose",
     "unit": "jest --watchAll",
     "ccov": "codecov -f coverage/coverage-final.json -t $CODECOV_TOKEN",

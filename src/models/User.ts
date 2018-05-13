@@ -50,12 +50,12 @@ UserSchema.methods = {
   this.hash = pbkdf2Sync(password, this.salt, 10000, 512, 'sha512')
     .toString('hex')
   },
-  
+
   generateJWT () {
     const today = new Date()
     const exp = new Date(today)
     exp.setDate(today.getDate() + 60)
-  
+
     return sign(
       {
         id: this._id,
@@ -99,7 +99,7 @@ UserSchema.methods = {
     if (this.favorites.indexOf(id) === -1) {
       this.favorites.push(id)
     }
-  
+
     return this.save()
   },
 
@@ -107,24 +107,24 @@ UserSchema.methods = {
     this.favorites.remove(id)
     return this.save()
   },
-  
+
   isFavorite (id: Schema.Types.ObjectId) {
     return this.favorites.some((favoriteId: Schema.Types.ObjectId) =>
     favoriteId.toString() === id.toString())
   },
-  
+
   follow (id: Schema.Types.ObjectId) {
     if (this.following.indexOf(id) === -1) {
       this.following.push(id)
     }
     return this.save()
   },
-  
+
   unfollow (id: Schema.Types.ObjectId) {
     this.following.remove(id)
     return this.save()
   },
-  
+
   isFollowing (id: Schema.Types.ObjectId) {
     return this.following.some((followId: Schema.Types.ObjectId) =>
     followId.toString() === id.toString())
