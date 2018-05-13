@@ -3,7 +3,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/socialement-competents/backathon.svg)](https://circleci.com/gh/socialement-competents/backathon)
 [![Code coverage with Codecov](https://img.shields.io/codecov/c/github/socialement-competents/backathon.svg)](https://codecov.io/gh/socialement-competents/backathon)
 ![No license](https://img.shields.io/github/license/socialement-competents/backathon.svg)
-[![CircleCI](https://img.shields.io/docker/pulls/socialementcompetents/backathon.svg)](https://hub.docker.com/r/socialementcompetents/backathon/)
+[![Docker](https://img.shields.io/docker/pulls/socialementcompetents/backathon.svg)](https://hub.docker.com/r/socialementcompetents/backathon/)
 
 This repo is functionality complete — PRs and issues welcome!
 
