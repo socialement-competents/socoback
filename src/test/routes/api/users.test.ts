@@ -6,17 +6,18 @@ describe('Users routes', () => {
     const result = await request(app)
       .post('/api/users')
       .send({
-        firstname: 'Rafael',
-        lastname: 'Nadal',
+        firstname: 'rafael',
+        lastname: 'nadal',
         email: `intg-test-${new Date().getTime()}@tennisi.fy`,
         password: 'ok'
       })
       .set('content-type', 'application/json')
 
-    const { firstname, email, token } = result.body
+    const { firstname, lastname, email, token } = result.body
 
     expect(result.status).toBe(200)
     expect(firstname).toBe('rafael')
+    expect(lastname).toBe('nadal')
     expect(email).toContain('@tennisi.fy')
     expect(token).toBeTruthy()
   })

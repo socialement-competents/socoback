@@ -3,7 +3,7 @@ import * as jwt from 'express-jwt'
 
 const secret = process.env.SESSION_SECRET
 
-function getTokenFromHeader(req: Request) {
+export function getTokenFromHeader(req: Request) {
   const auth =
     req.headers.authorization &&
     (req.headers.authorization as string).split(' ')
