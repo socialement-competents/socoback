@@ -111,7 +111,7 @@ export class Server {
       })
     })
     app.server.listen(app.app.get('port'), () => {
-      console.log(`Server is listenning on port ${app.app.get('port')}`)
+      console.log(`Server is listening on port ${app.app.get('port')}`)
     })
     return app
   }

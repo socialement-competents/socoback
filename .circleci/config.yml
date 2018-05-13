@@ -16,7 +16,7 @@ jobs:
           command: docker-compose run -p 3000 --rm integrationtests yarn lint
       - run:
           name: Integrations tests
-          command: docker-compose run -p 3000 --rm integrationtests npm run test:ci
+          command: docker-compose run -p 3000 --rm integrationtests yarn test:ci
           volumes:
             - $CIRCLE_TEST_REPORTS/junit:/tmp/app/reports/junit
           environment:

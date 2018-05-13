@@ -10,6 +10,6 @@ WORKDIR /tmp/app
 ENV SESSION_SECRET=secret
 ENV JEST_JUNIT_OUTPUT=reports/junit/js-test-results.xml
 
-RUN npm install --quiet
+RUN yarn --frozen-lockfile --non-interactive
 
 EXPOSE 3000
