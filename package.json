@@ -85,6 +85,7 @@
     "eslint-config-prettier": "2.9.0",
     "jest": "21.2.1",
     "jest-junit": "^3.7.0",
+    "mock-express-request": "^0.2.2",
     "nodemon": "1.13.0",
     "npm-run-all": "4.1.2",
     "prettier": "1.11.1",
