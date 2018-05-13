@@ -4,6 +4,7 @@ import * as session from 'express-session'
 import * as graphqlHTTP from 'express-graphql'
 import { urlencoded, json } from 'body-parser'
 import { connect, createConnection } from 'mongoose'
+import { createTransport, Transporter } from 'nodemailer'
 import { config } from 'dotenv'
 import * as cors from 'cors'
 import * as logger from 'morgan'
@@ -16,18 +17,22 @@ import { graphqlSchema } from './graphql'
 
 export class Server {
   public app: express.Application
-  public io: io.Server
+  private io: io.Server
   private server: http.Server
+  public transporter: Transporter
   private isProduction: boolean = process.env.NODE_ENV === 'production'
-  private secret: string = this.isProduction
-    ? process.env.SESSION_SECRET
-    : 'tennisify'
+  private secret: string = process.env.SESSION_SECRET
+  private emailHost: string = process.env.EMAIL_HOST
+  private emailPort: string = process.env.EMAIL_PORT
+  private userMail: string = process.env.USER_MAILER
+  private passwordMail: string = process.env.USER_PASSWORD_MAILER
 
   constructor() {
     this.app = express()
     this.config()
     this.createServer()
     this.initSockets()
+    this.initTransporter()
     this.routes()
   }
 
@@ -55,7 +60,7 @@ export class Server {
   }
 
   private routes() {
-    this.app.use(new MainRouter(this.io).router)
+    this.app.use(new MainRouter(this.io, this.transporter).router)
 
     this.app.use(
       '/graphql',
@@ -80,10 +85,26 @@ export class Server {
     this.io = io(this.server)
   }
 
+  private initTransporter() {
+    const auth = this.isProduction
+      ? {
+          user: this.userMail,
+          pass: this.passwordMail
+        }
+      : undefined
+
+    this.transporter = createTransport({
+      host: this.emailHost,
+      port: parseInt(this.emailPort),
+      secure: false,
+      ignoreTLS: true,
+      auth
+    })
+  }
+
   public static bootstrap(): Server {
     const app = new Server()
     app.io.on('connect', (socket: io.Socket) => {
-      app.io.emit('any', 'Slt grigny le s')
       console.log(socket.id, socket.handshake.query)
       socket.on('disconnect', () => {
         console.log('Client disconnected')
@@ -96,6 +117,6 @@ export class Server {
   }
 }
 
-const app = new Server().app
+export const server = new Server()
 
-export default app
+export default server.app

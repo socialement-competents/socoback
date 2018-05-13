@@ -42,11 +42,11 @@ describe('Users routes', () => {
       .set('Content-Type', 'application/json')
       .send({
         firstname: 'roger',
-        image: 'players/federer.png'
+        lastname: 'federer'
       })
 
-      expect(putResult.status).toBe(200)
-      expect(putResult.body.lastname).toBe('nadal')
-      expect(putResult.body.image).toBe('players/federer.png')
+    expect(putResult.status).toBe(200)
+    expect(putResult.body.lastname).toBe('federer')
+    expect(putResult.body.firstname).toBe('roger')
   })
 })

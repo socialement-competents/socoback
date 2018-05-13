@@ -14,13 +14,11 @@ passport.use(
     async (email, password, done) => {
       try {
         const user = await User.findOne({ email: email })
-
         if (!user || !user.validPassword(password)) {
           return done(undefined, false, {
             message: 'email or password is invalid'
           })
         }
-
         return done(undefined, user)
       } catch (e) {
         done(e)
@@ -72,12 +70,7 @@ export default class UserRouter {
             user.lastname = req.body.lastname
           if (typeof req.body.firstname !== 'undefined')
             user.firstname = req.body.firstname
-          if (typeof req.body.email !== 'undefined')
-            user.email = req.body.email
-          if (typeof req.body.bio !== 'undefined')
-            user.bio = req.body.bio
-          if (typeof req.body.image !== 'undefined')
-            user.image = req.body.image
+          if (typeof req.body.email !== 'undefined') user.email = req.body.email
           if (typeof req.body.password !== 'undefined')
             user.setPassword(req.body.password)
 

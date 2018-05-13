@@ -13,7 +13,7 @@ jobs:
       - checkout
       - run:
           name: Lint
-          command: docker-compose run -p 3000 --rm app yarn lint
+          command: docker-compose run -p 3000 --rm integrationtests yarn lint
       - run:
           name: Integrations tests
           command: docker-compose run -p 3000 --rm integrationtests npm run test:ci

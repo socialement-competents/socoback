@@ -7,18 +7,18 @@ module.exports = {
   devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   module: {
     rules: [
       {
         use: 'ts-loader',
-        test: /\.ts?$/,
-      },
-    ],
+        test: /\.ts?$/
+      }
+    ]
   },
   resolve: {
     modules: [path.resolve('./node_modules')],
-    extensions: ['.ts'],
-  },
+    extensions: ['.ts']
+  }
 }

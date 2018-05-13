@@ -1,8 +1,9 @@
 FROM node:8.11.1-alpine
+LABEL maintainer="Théophile Cousin <cousin.theophile@gmail.com>"
 
 RUN mkdir -p /tmp/app
 
-ADD . /tmp/app
+COPY . /tmp/app
 
 WORKDIR /tmp/app
 

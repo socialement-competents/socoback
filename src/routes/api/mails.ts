@@ -1,11 +1,5 @@
-import {
-  Router,
-  Request,
-  Response,
-  NextFunction
-} from 'express'
-import { createTransport } from 'nodemailer'
-
+import { Router, Request, Response, NextFunction } from 'express'
+import { Transporter } from 'nodemailer'
 import { auth } from '../auth'
 
 interface IMail extends Document {
@@ -15,14 +9,9 @@ interface IMail extends Document {
 }
 
 export default class MailRouter {
-
   public router: Router
-  private emailHost: string = process.env.EMAIL_HOST
-  private emailPort: string = process.env.EMAIL_PORT
-  private userMail = process.env.USER_MAILER
-  private passwordMail = process.env.USER_PASSWORD_MAILER
 
-  constructor() {
+  constructor(private transporter: Transporter) {
     this.router = Router()
     this.init()
   }
@@ -31,29 +20,8 @@ export default class MailRouter {
     this.router.post(
       '/public',
       auth.required,
-      (
-        req: Request,
-        res: Response,
-        next: NextFunction
-      ) => {
-        const {
-          subject,
-          to,
-          text
-        } = req.body
-
-        const auth = process.env.NODE_ENV === 'production' ? {
-          user: this.userMail,
-          pass: this.passwordMail
-        } : undefined
-
-        const transporter = createTransport({
-          host: this.emailHost,
-          port: parseInt(this.emailPort),
-          secure: false,
-          ignoreTLS: true,
-          auth
-        })
+      (req: Request, res: Response, next: NextFunction) => {
+        const { subject, to, text } = req.body
 
         const mailOptions = {
           from: '"Hackathon APP" <hackathonapp@gmail.com>',
@@ -63,7 +31,9 @@ export default class MailRouter {
           html: '<h1>Hello Hackathon</h1>'
         }
 
-        transporter.sendMail(mailOptions, (error, info) => res.sendStatus(error ? 500 : 200))
+        this.transporter.sendMail(mailOptions, (error, info) =>
+          res.sendStatus(error ? 500 : 200)
+        )
       }
     )
   }

@@ -9,7 +9,7 @@ import {
   GraphQLInt
 } from 'graphql'
 
-import { User, IUser } from '../models/User'
+import { getAll, getById, create } from './controllers/user.ctrl'
 
 export const userType = new GraphQLObjectType({
   name: 'User',
@@ -30,18 +30,6 @@ export const userType = new GraphQLObjectType({
     lastname: {
       type: GraphQLString,
       description: 'The lastname'
-    },
-    bio: {
-      type: GraphQLString,
-      description: 'The bio'
-    },
-    image: {
-      type: GraphQLString,
-      description: 'The image'
-    },
-    cards: {
-      type: new GraphQLList(GraphQLString),
-      description: 'The cards'
     }
   })
 })
@@ -55,11 +43,7 @@ const query = {
         type: GraphQLInt
       }
     },
-    resolve: (root, { limit }) =>
-      User.find()
-        .populate('cards')
-        .limit(limit)
-        .exec()
+    resolve: (root, { limit }) => getAll(limit)
   },
   userById: {
     type: userType,
@@ -69,10 +53,7 @@ const query = {
         type: GraphQLString
       }
     },
-    resolve: (root, { id }) =>
-      User.findById(id)
-        .populate('cards')
-        .exec()
+    resolve: (root, { id }) => getById(id)
   }
 }
 
@@ -80,14 +61,21 @@ const mutation = {
   addUser: {
     type: userType,
     args: {
-      username: {
+      email: {
         type: new GraphQLNonNull(GraphQLString)
       },
       password: {
         type: new GraphQLNonNull(GraphQLString)
+      },
+      firstname: {
+        type: new GraphQLNonNull(GraphQLString)
+      },
+      lastname: {
+        type: new GraphQLNonNull(GraphQLString)
       }
     },
-    resolve: (obj, input) => new User().save()
+    resolve: (obj, { email, password, firstname, lastname }) =>
+      create(email, password, firstname, lastname)
   }
 }
 

@@ -1,4 +1,5 @@
 FROM node:8.11.1-alpine as build
+LABEL maintainer="Théophile Cousin <cousin.theophile@gmail.com>, Thomas Sauvajon <thomas.sauvajon.dev@gmail.com>"
 WORKDIR /tmp/backathon
 COPY . .
 RUN yarn
