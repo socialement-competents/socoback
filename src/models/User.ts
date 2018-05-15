@@ -68,7 +68,7 @@ UserSchema.methods = {
 
   toAuthJSON() {
     return {
-      id: this._id,
+      _id: this._id,
       firstname: this.firstname,
       lastname: this.lastname,
       email: this.email,
