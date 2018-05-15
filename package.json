@@ -16,7 +16,8 @@
     "ccov": "codecov -f coverage/coverage-final.json -t $CODECOV_TOKEN",
     "test:coverage": "jest --coverage",
     "prettier": "prettier --config .prettierrc --write 'webpack.config.js' 'src/**/*.{js,ts}'",
-    "prettier-check": "prettier -l --config .prettierrc 'webpack.config.js' 'src/**/*.{js,ts}'"
+    "prettier-check": "prettier -l --config .prettierrc 'webpack.config.js' 'src/**/*.{js,ts}'",
+    "graphql-doc": "graphdoc --force"
   },
   "repository": {
     "type": "git"
@@ -52,6 +53,7 @@
     "underscore": "1.8.3"
   },
   "devDependencies": {
+    "@2fd/graphdoc": "^2.4.0",
     "@types/async": "2.0.45",
     "@types/bcrypt-nodejs": "0.0.30",
     "@types/body-parser": "1.16.8",
@@ -101,5 +103,12 @@
     "typescript": "2.8.1",
     "webpack": "3.10.0",
     "webpack-node-externals": "1.6.0"
+  },
+  "graphdoc": {
+    "graphiql": "https://soco-back.herokuapp.com/graphql",
+    "logo": "<a href=\"https://github.com/socialement-competents/socoback\" target=\"_blank\" style=\"display:block;padding:1rem 35%\"><img src=\"https://raw.githubusercontent.com/socialement-competents/socoperator/dev/src/assets/soco-logo.png\" /></a>",
+    "endpoint": "https://soco-back.herokuapp.com/graphql",
+    "output": "./docs/",
+    "baseUrl": "./"
   }
 }
