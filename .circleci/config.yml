@@ -55,7 +55,7 @@ jobs:
             HEROKU_IMAGE: soco-back/web:latest
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ] || [ -n "${CIRCLE_TAG}" ] || [ "${CIRCLE_BRANCH}" == "feat/heroku" ]; then
-              docker login -u=_ -p=$HEROKU_API_TOKEN registry.heroku.com
+              docker login -u=_ -p=$HEROKU_API_KEY registry.heroku.com
               docker tag $IMAGE $HEROKU_REGISTRY/$HEROKU_IMAGE
               docker push $HEROKU_REGISTRY/$HEROKU_IMAGE
             fi
