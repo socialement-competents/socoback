@@ -1,10 +1,10 @@
 import * as request from 'supertest'
 import app from '../../server'
 
-describe('GET /', () => {
+describe('GET /health', () => {
   it('should return 200 OK', () => {
     return request(app)
-      .get('/')
+      .get('/health')
       .expect(200)
   })
 

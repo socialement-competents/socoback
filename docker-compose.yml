@@ -63,6 +63,7 @@ services:
     image: tophfr/mailcatcher
     ports:
       - 1080:80
+      - 25:25
     networks:
       - mail
 

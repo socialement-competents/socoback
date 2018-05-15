@@ -26,7 +26,7 @@ const UserSchema = new Schema(
     },
     hash: String,
     salt: String,
-    isValidated: Boolean,
+    isValidated: Boolean
   },
   { timestamps: true }
 )

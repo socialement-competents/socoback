@@ -22,6 +22,46 @@ describe('Users routes', () => {
     expect(token).toBeTruthy()
   })
 
+  it('rejects log in', async () => {
+    const email = `intg-test-${new Date().getTime()}@tennisi.fy`
+    await request(app)
+      .post('/api/users')
+      .send({
+        firstname: 'rafael',
+        lastname: 'nadal',
+        email,
+        password: 'ok'
+      })
+      .set('content-type', 'application/json')
+    const result = await request(app)
+      .post('/api/users/login')
+      .send({
+        email,
+        password: 'wrongpassword'
+      })
+    expect(result.status).toBe(422)
+  })
+
+  it('logs in successfully', async () => {
+    const email = `intg-test-${new Date().getTime()}@tennisi.fy`
+    await request(app)
+      .post('/api/users')
+      .send({
+        firstname: 'rafael',
+        lastname: 'nadal',
+        email,
+        password: 'ok'
+      })
+      .set('content-type', 'application/json')
+    const result = await request(app)
+      .post('/api/users/login')
+      .send({
+        email,
+        password: 'ok'
+      })
+    expect(result.status).toBe(200)
+  })
+
   it('modifies an user', async () => {
     const createResult = await request(app)
       .post('/api/users')

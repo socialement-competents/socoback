@@ -1,15 +1,21 @@
 import { create, getAll, getById } from '../../../graphql/controllers/user.ctrl'
 
 describe('user controller', () => {
-  const email = `test-${new Date().getTime()}@backathon.fr`
+  const email = `test-${new Date().getTime()}@socoback.fr`
   const password = 'test'
   const firstname = 'rafou'
   const lastname = 'nadal'
   // on mock le console.log pour éviter de spam STDIN
   console.log = jest.fn
+  console.info = jest.fn
 
   it('creates users', async () => {
-    const result = await create(`create-${email}`, password, firstname, lastname)
+    const result = await create(
+      `create-${email}`,
+      password,
+      firstname,
+      lastname
+    )
     expect(result).toEqual(
       expect.objectContaining({
         email: expect.stringContaining('create-'),
@@ -19,16 +25,19 @@ describe('user controller', () => {
         hash: expect.any(String),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
-      }))
+      })
+    )
   })
 
   it(`doesn't duplicate users`, async () => {
-    await create(`unique@test.fr`, password, firstname, lastname)
-    const result = await create(`unique@test.fr`, password, firstname, lastname)
-    expect(result.errors).toBeTruthy()
-    const actual = result.errors.email.message
-    const expected = 'is already taken'
-    expect(actual).toBe(expected)
+    try {
+      await create(`not-unique@test.fr`, password, firstname, lastname)
+      // this call must throw
+      await create(`not-unique@test.fr`, password, firstname, lastname)
+      throw new Error('Expected to throw a validation error')
+    } catch (e) {
+      expect(e.toString()).toBe('ValidationError: email: is already taken')
+    }
   })
 
   it('gets an user', async () => {
@@ -46,7 +55,8 @@ describe('user controller', () => {
         hash: expect.any(String),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
-      }))
+      })
+    )
   })
 
   it('gets all users', async () => {
@@ -65,6 +75,7 @@ describe('user controller', () => {
         hash: expect.any(String),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
-      }))
+      })
+    )
   })
 })

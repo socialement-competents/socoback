@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Push to docker hub
           environment:
-            IMAGE: socialementcompetents/backathon
+            IMAGE: socialementcompetents/socoback
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ] || [ -n "${CIRCLE_TAG}" ]; then
               docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD

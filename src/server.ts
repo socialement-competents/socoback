@@ -1,9 +1,11 @@
-import * as http from 'http'
+import { createServer as createHttpServer, Server as httpServer } from 'http'
 import * as express from 'express'
 import * as session from 'express-session'
 import * as graphqlHTTP from 'express-graphql'
+import { SubscriptionServer } from 'subscriptions-transport-ws'
+import { execute, subscribe } from 'graphql'
 import { urlencoded, json } from 'body-parser'
-import { connect, createConnection } from 'mongoose'
+import { connect, createConnection, set } from 'mongoose'
 import { createTransport, Transporter } from 'nodemailer'
 import { config } from 'dotenv'
 import * as cors from 'cors'
@@ -13,12 +15,12 @@ import * as io from 'socket.io'
 config()
 
 import MainRouter from './routes'
-import { graphqlSchema } from './graphql'
+import { schema } from './graphql'
 
 export class Server {
   public app: express.Application
   private io: io.Server
-  private server: http.Server
+  private server: httpServer
   public transporter: Transporter
   private isProduction: boolean = process.env.NODE_ENV === 'production'
   private secret: string = process.env.SESSION_SECRET
@@ -26,6 +28,7 @@ export class Server {
   private emailPort: string = process.env.EMAIL_PORT
   private userMail: string = process.env.USER_MAILER
   private passwordMail: string = process.env.USER_PASSWORD_MAILER
+  private WS_GQL_PATH = '/subscriptions'
 
   constructor() {
     this.app = express()
@@ -34,10 +37,17 @@ export class Server {
     this.initSockets()
     this.initTransporter()
     this.routes()
+    if (this.isProduction) {
+      new SubscriptionServer(
+        { schema, execute, subscribe },
+        { server: this.server, path: this.WS_GQL_PATH }
+      )
+    }
   }
 
   private config() {
     try {
+      if (!this.isProduction) set('debug', true)
       connect(process.env.MONGODB_URI)
     } catch (e) {
       createConnection(process.env.MONGODB_URI)
@@ -66,19 +76,19 @@ export class Server {
       '/graphql',
       cors(),
       graphqlHTTP({
-        schema: graphqlSchema,
+        schema,
         rootValue: global,
         graphiql: true
       })
     )
 
-    this.app.get('/', (req, res) =>
-      res.status(200).json({ message: 'Welcome home !' })
+    this.app.get('/health', (req, res) =>
+      res.status(200).json({ message: 'Is healthy' })
     )
   }
 
   private createServer() {
-    this.server = http.createServer(this.app)
+    this.server = createHttpServer(this.app)
   }
 
   private initSockets() {

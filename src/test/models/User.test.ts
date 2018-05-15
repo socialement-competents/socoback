@@ -6,7 +6,7 @@ describe('user controller', () => {
   const lastname = 'nadal'
 
   it('generates a JWT', () => {
-    const email = `test-${new Date().getTime()}@backathon.fr`
+    const email = `test-${new Date().getTime()}@socoback.fr`
     const user = new User()
     user.email = email
     user.firstname = firstname

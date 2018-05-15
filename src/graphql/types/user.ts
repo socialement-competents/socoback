@@ -1,15 +1,12 @@
 import {
-  GraphQLEnumType,
-  GraphQLInterfaceType,
   GraphQLObjectType,
   GraphQLList,
   GraphQLNonNull,
-  GraphQLSchema,
   GraphQLString,
   GraphQLInt
 } from 'graphql'
 
-import { getAll, getById, create } from './controllers/user.ctrl'
+import { getAll, getById, create } from '../controllers/user.ctrl'
 
 export const userType = new GraphQLObjectType({
   name: 'User',

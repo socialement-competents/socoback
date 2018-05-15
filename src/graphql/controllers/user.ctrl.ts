@@ -29,15 +29,14 @@ export async function create(
     subject: 'Account validation',
     text:
       'Hello there, please get validate your account by clicking on the link: ',
-    html: '<h1>Hello Hackathon</h1>'
+    html: `
+      <h1>Hello ${firstname} ${lastname}</h1>
+      <p>Please validate your account by clicking on the link</p>
+    `
   }
-  try {
-    const saved = await user.save()
-    server.transporter.sendMail(mailOptions, (err) => {
-      console.log(err)
-    })
-    return saved
-  } catch (e) {
-    return e
-  }
+  const saved = await user.save()
+  server.transporter.sendMail(mailOptions, err => {
+    if (err) console.log(err)
+  })
+  return saved
 }

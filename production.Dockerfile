@@ -1,5 +1,5 @@
 FROM node:8.11.1-alpine as build
-WORKDIR /tmp/backathon
+WORKDIR /tmp/socoback
 COPY . .
 RUN yarn --pure-lockfile --non-interactive
 RUN yarn build
@@ -15,7 +15,7 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn --pure-lockfile --non-interactive --prod
 
-COPY --from=build /tmp/backathon/build ./build
+COPY --from=build /tmp/socoback/build ./build
 COPY process.yml .
 EXPOSE 3000
 

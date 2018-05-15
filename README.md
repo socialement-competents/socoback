@@ -1,9 +1,9 @@
 ![Node](https://img.shields.io/badge/node-8.11.1-brightgreen.svg)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![CircleCI](https://img.shields.io/circleci/project/github/socialement-competents/backathon.svg)](https://circleci.com/gh/socialement-competents/backathon)
-[![Code coverage with Codecov](https://img.shields.io/codecov/c/github/socialement-competents/backathon.svg)](https://codecov.io/gh/socialement-competents/backathon)
-![No license](https://img.shields.io/github/license/socialement-competents/backathon.svg)
-[![Docker](https://img.shields.io/docker/pulls/socialementcompetents/backathon.svg)](https://hub.docker.com/r/socialementcompetents/backathon/)
+[![CircleCI](https://img.shields.io/circleci/project/github/socialement-competents/socoback.svg)](https://circleci.com/gh/socialement-competents/socoback)
+[![Code coverage with Codecov](https://img.shields.io/codecov/c/github/socialement-competents/socoback.svg)](https://codecov.io/gh/socialement-competents/socoback)
+![No license](https://img.shields.io/github/license/socialement-competents/socoback.svg)
+[![Docker](https://img.shields.io/docker/pulls/socialementcompetents/socoback.svg)](https://hub.docker.com/r/socialementcompetents/socoback/)
 
 This repo is functionality complete — PRs and issues welcome!
 
