@@ -44,6 +44,18 @@ jobs:
               docker tag ${IMAGE}:latest ${IMAGE}:${CIRCLE_TAG}
               docker push ${IMAGE}:${CIRCLE_TAG}
             fi
+      - run:
+          name: Push to Heroku if tag or master branch
+          environment:
+            IMAGE: socialementcompetents/socoback:latest
+            HEROKU_REGISTRY: registry.heroku.com 
+            HEROKU_IMAGE: soco-back/web:latest
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ] || [ -n "${CIRCLE_TAG}" ]; then
+              docker login -u=_ -p=$HEROKU_API_TOKEN registry.heroku.com
+              docker tag $IMAGE $HEROKU_REGISTRY/$HEROKU_IMAGE
+              docker push $HEROKU_REGISTRY/$HEROKU_IMAGE
+            fi
 
 workflows:
   version: 2
