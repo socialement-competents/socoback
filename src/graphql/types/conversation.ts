@@ -3,8 +3,7 @@ import {
   GraphQLList,
   GraphQLNonNull,
   GraphQLString,
-  GraphQLInt,
-  GraphQLBoolean
+  GraphQLInt
 } from 'graphql'
 import { userType } from './user'
 import { getAll, getById, create } from '../controllers/conversation.ctrl'
@@ -17,10 +16,6 @@ export const conversationType = new GraphQLObjectType({
     _id: {
       type: GraphQLString,
       description: 'The id'
-    },
-    isHandled: {
-      type: GraphQLBoolean,
-      description: 'is the conversation handled by operator'
     },
     user: {
       type: userType,
