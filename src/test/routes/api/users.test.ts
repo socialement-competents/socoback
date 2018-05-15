@@ -75,10 +75,10 @@ describe('Users routes', () => {
 
     expect(createResult.status).toBe(200)
 
-    const { token, id } = createResult.body
+    const { token, _id } = createResult.body
 
     const putResult = await request(app)
-      .put(`/api/users/${id}`)
+      .put(`/api/users/${_id}`)
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
       .send({

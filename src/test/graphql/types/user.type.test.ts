@@ -22,6 +22,61 @@ describe('GQ User', () => {
     expect(firstname).toBe('ok')
   })
 
+  it('should log in an user', async () => {
+    const mail = `intg-${new Date().getTime()}@ok.ok`
+    const query = `
+      mutation{
+        addUser(email: "${mail}", lastname: "ok", firstname: "ok", password: "ok"){
+          _id
+          email
+          firstname
+          lastname
+        }
+      }
+    `
+    await graphql(schema, query)
+
+    const login = `
+      query{
+        logIn(email: "${mail}", password: "ok"){
+          token
+          _id
+        }
+      }
+    `
+    const { data: { logIn } } = await graphql(schema, login)
+
+    expect(logIn.token).toBeDefined()
+    expect(logIn._id).toBeDefined()
+  })
+
+  it('should reject log in', async () => {
+    const mail = `intg-${new Date().getTime()}@ok.ok`
+    const query = `
+      mutation{
+        addUser(email: "${mail}", lastname: "ok", firstname: "ok", password: "ok"){
+          _id
+          email
+          firstname
+          lastname
+        }
+      }
+    `
+    await graphql(schema, query)
+
+    const login = `
+      query{
+        logIn(email: "${mail}", password: "randomwrongpassword"){
+          token
+          _id
+        }
+      }
+    `
+    const { data: { logIn } } = await graphql(schema, login)
+
+    expect(logIn).toBeNull()
+  })
+
   it('should get an user by id', async () => {
     const mail = `test-${new Date().getTime()}@ok.ok`
     const createUser = `

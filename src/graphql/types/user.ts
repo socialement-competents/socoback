@@ -6,7 +6,7 @@ import {
   GraphQLInt
 } from 'graphql'
 
-import { getAll, getById, create } from '../controllers/user.ctrl'
+import { getAll, getById, create, logIn } from '../controllers/user.ctrl'
 
 export const userType = new GraphQLObjectType({
   name: 'User',
@@ -27,6 +27,10 @@ export const userType = new GraphQLObjectType({
     lastname: {
       type: GraphQLString,
       description: 'The lastname'
+    },
+    token: {
+      type: GraphQLString,
+      description: 'Token used to authenticate requests'
     }
   })
 })
@@ -51,6 +55,20 @@ const query = {
       }
     },
     resolve: (root, { id }) => getById(id)
+  },
+  logIn: {
+    type: userType,
+    args: {
+      email: {
+        description: 'email',
+        type: GraphQLString
+      },
+      password: {
+        description: 'password',
+        type: GraphQLString
+      }
+    },
+    resolve: (root, { email, password }) => logIn(email, password)
   }
 }
 
