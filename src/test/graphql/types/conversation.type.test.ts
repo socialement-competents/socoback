@@ -1,5 +1,10 @@
 import { graphql } from 'graphql'
 import { schema } from '../../../../src/graphql'
+import { server } from '../../../server'
+
+beforeAll(() => {
+  server
+})
 
 describe('GQ Conversation', () => {
   it('should create a conversation', async () => {

@@ -6,7 +6,7 @@ import {
   GraphQLInt
 } from 'graphql'
 import { userType } from './user'
-import { getAll, getById, create } from '../controllers/conversation.ctrl'
+import { getAll, getById, create, conversationAdded } from '../resolvers/conversation.resolver'
 import { messageType } from './message'
 
 export const conversationType = new GraphQLObjectType({
@@ -70,7 +70,12 @@ const mutation = {
   }
 }
 
-const subscription = {}
+const subscription = {
+  conversationAdded: {
+    type: conversationType,
+    ...conversationAdded
+  }
+}
 
 export const ConversationSchema = {
   query,

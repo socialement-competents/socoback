@@ -6,7 +6,7 @@ import {
   GraphQLInt
 } from 'graphql'
 
-import { getAll, getById, create, logIn } from '../controllers/user.ctrl'
+import { getAll, getById, create, logIn } from '../resolvers/user.resolver'
 
 export const userType = new GraphQLObjectType({
   name: 'User',
