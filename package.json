@@ -36,6 +36,7 @@
     "express-status-monitor": "1.0.1",
     "graphql": "0.12.3",
     "graphql-subscriptions": "0.5.8",
+    "graphql-tools": "^3.0.1",
     "jsonwebtoken": "7.1.9",
     "method-override": "2.3.5",
     "methods": "1.1.2",

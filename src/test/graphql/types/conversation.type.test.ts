@@ -1,4 +1,5 @@
 import { graphql } from 'graphql'
+import { addMockFunctionsToSchema } from 'graphql-tools'
 import { schema } from '../../../../src/graphql'
 import { server } from '../../../server'
 
@@ -10,6 +11,11 @@ beforeAll(() => {
 
 describe('GQ Conversation', () => {
   it('should create a conversation', async () => {
+    // TODO refactor to real TUs
+    // addMockFunctionsToSchema({ schema })
+    // https://www.apollographql.com/docs/graphql-tools/mocking.html
+    // https://medium.freecodecamp.org/mocking-graphql-with-graphql-tools-42c2dd9d0364
+    // https://hackernoon.com/extensive-graphql-testing-57e8760f1c25
     const mail = `test-${new Date().getTime()}@ok.ok`
     const createUser = `
       mutation{
