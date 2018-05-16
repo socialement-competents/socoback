@@ -1,4 +1,9 @@
 import { create, getAll, getById } from '../../../graphql/controllers/user.ctrl'
+import { server } from '../../../server'
+
+beforeAll(() => {
+  server
+})
 
 describe('user controller', () => {
   const email = `test-${new Date().getTime()}@socoback.fr`

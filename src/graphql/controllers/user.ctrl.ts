@@ -1,5 +1,4 @@
 import { User } from '../../models/User'
-import { server } from '../../server'
 
 export function getAll(limit: number) {
   return User.find()
@@ -31,20 +30,5 @@ export async function create(
   user.lastname = lastname
   user.setPassword(password)
 
-  const mailOptions = {
-    from: '"Hackathon APP" <hackathonapp@gmail.com>',
-    to: email,
-    subject: 'Account validation',
-    text:
-      'Hello there, please get validate your account by clicking on the link: ',
-    html: `
-      <h1>Hello ${firstname} ${lastname}</h1>
-      <p>Please validate your account by clicking on the link</p>
-    `
-  }
-  const saved = await user.save()
-  server.transporter.sendMail(mailOptions, err => {
-    if (err) console.log(err)
-  })
-  return saved
+  return await user.save()
 }

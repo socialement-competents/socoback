@@ -1,21 +1,21 @@
 import * as request from 'supertest'
-import app from '../../server'
+import { server } from '../../server'
 
 describe('GET /health', () => {
   it('should return 200 OK', () => {
-    return request(app)
+    return request(server.app)
       .get('/health')
       .expect(200)
   })
 
   it('should return 200 OK to graphiql', () => {
-    return request(app)
+    return request(server.app)
       .get('/graphql')
       .expect(200)
   })
 
   it('should return 404 Not Found', () => {
-    return request(app)
+    return request(server.app)
       .get('/api/')
       .expect(404)
   })

@@ -5,6 +5,11 @@ import {
 } from '../../../graphql/controllers/message.ctrl'
 import { create as createConv } from '../../../graphql/controllers/conversation.ctrl'
 import { create as createUser } from '../../../graphql/controllers/user.ctrl'
+import { server } from '../../../server'
+
+beforeAll(() => {
+  server
+})
 
 describe('message controller', () => {
   console.log = jest.fn

@@ -23,6 +23,7 @@ export class Server {
   private server: httpServer
   public transporter: Transporter
   private isProduction: boolean = process.env.NODE_ENV === 'production'
+  private isDevelopement: boolean = process.env.NODE_ENV === 'developement'
   private secret: string = process.env.SESSION_SECRET
   private emailHost: string = process.env.EMAIL_HOST
   private emailPort: string = process.env.EMAIL_PORT
@@ -36,12 +37,13 @@ export class Server {
     this.createServer()
     this.initSockets()
     this.initTransporter()
+    this.initSubscriptionWS()
     this.routes()
   }
 
   private config() {
     try {
-      if (!this.isProduction) set('debug', true)
+      if (this.isDevelopement) set('debug', true)
       connect(process.env.MONGODB_URI)
     } catch (e) {
       createConnection(process.env.MONGODB_URI)
@@ -114,6 +116,13 @@ export class Server {
     })
   }
 
+  private initSubscriptionWS() {
+    new SubscriptionServer(
+      { schema, execute, subscribe },
+      { server: this.server, path: this.WS_GQL_PATH }
+    )
+  }
+
   public static bootstrap(): Server {
     const app = new Server()
     app.io.on('connect', (socket: io.Socket) => {
@@ -124,15 +133,9 @@ export class Server {
     })
     app.server.listen(app.app.get('port'), () => {
       console.log(`Server is listening on port ${app.app.get('port')}`)
-      new SubscriptionServer(
-        { schema, execute, subscribe },
-        { server: app.server, path: app.WS_GQL_PATH }
-      )
     })
     return app
   }
 }
 
 export const server = new Server()
-
-export default server.app
