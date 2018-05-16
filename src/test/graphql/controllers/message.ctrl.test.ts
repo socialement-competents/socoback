@@ -6,7 +6,7 @@ import {
 import { create as createConv } from '../../../graphql/controllers/conversation.ctrl'
 import { create as createUser } from '../../../graphql/controllers/user.ctrl'
 
-describe('user controller', () => {
+describe('message controller', () => {
   console.log = jest.fn
   console.info = jest.fn
 
