@@ -4,8 +4,7 @@ const ConversationSchema = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: [true, "can't be blank"]
+      ref: 'User'
     },
     operator: {
       type: Schema.Types.ObjectId,

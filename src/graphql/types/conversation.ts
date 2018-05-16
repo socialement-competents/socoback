@@ -60,7 +60,7 @@ const mutation = {
     type: conversationType,
     args: {
       userId: {
-        type: new GraphQLNonNull(GraphQLString)
+        type: GraphQLString
       },
       operatorId: {
         type: GraphQLString
