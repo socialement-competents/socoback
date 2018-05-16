@@ -12,19 +12,22 @@ describe('user controller', () => {
   const password = 'test'
   const firstname = 'rafou'
   const lastname = 'nadal'
+  const image = 'randomImage'
 
   it('creates users', async () => {
     const result = await create(
       `create-${email}`,
       password,
       firstname,
-      lastname
+      lastname,
+      image
     )
     expect(result).toEqual(
       expect.objectContaining({
         email: expect.stringContaining('create-'),
         firstname: 'rafou',
         lastname: 'nadal',
+        image: 'randomImage',
         token: expect.any(String)
       })
     )

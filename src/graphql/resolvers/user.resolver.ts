@@ -34,13 +34,15 @@ export async function create(
   email: string,
   password: string,
   firstname: string,
-  lastname: string
+  lastname: string,
+  image?: string
 ) {
   try {
     const user = new User()
     user.email = email
     user.firstname = firstname
     user.lastname = lastname
+    user.image = image
     user.setPassword(password)
 
     const saved = await user.save()

@@ -28,6 +28,10 @@ export const userType = new GraphQLObjectType({
       type: GraphQLString,
       description: 'The lastname'
     },
+    image: {
+      type: GraphQLString,
+      description: 'The image/avatar'
+    },
     token: {
       type: GraphQLString,
       description: 'Token used to authenticate requests'
@@ -87,10 +91,13 @@ const mutation = {
       },
       lastname: {
         type: new GraphQLNonNull(GraphQLString)
+      },
+      image: {
+        type: GraphQLString
       }
     },
-    resolve: (obj, { email, password, firstname, lastname }) =>
-      create(email, password, firstname, lastname)
+    resolve: (obj, { email, password, firstname, lastname, image }) =>
+      create(email, password, firstname, lastname, image)
   }
 }
 

@@ -24,6 +24,9 @@ const UserSchema = new Schema(
       lowercase: true,
       required: [true, "can't be blank"]
     },
+    image: {
+      type: String
+    },
     hash: String,
     salt: String,
     isValidated: Boolean
@@ -72,6 +75,7 @@ UserSchema.methods = {
       firstname: this.firstname,
       lastname: this.lastname,
       email: this.email,
+      image: this.image,
       token: this.generateJWT()
     }
   },
@@ -89,6 +93,7 @@ export interface IUser extends Document {
   lastname: string
   firstname: string
   email: string
+  image: string
   hash: string
   salt: string
   token?: string
