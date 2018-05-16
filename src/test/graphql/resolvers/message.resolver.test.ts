@@ -8,12 +8,12 @@ import { create as createUser } from '../../../graphql/resolvers/user.resolver'
 import { server } from '../../../server'
 
 beforeAll(() => {
-  server
+  console.log = jest.fn
+  console.info = jest.fn
+  console.log(server)
 })
 
 describe('message controller', () => {
-  console.log = jest.fn
-  console.info = jest.fn
 
   it('creates messages', async () => {
     const user = await createUser(

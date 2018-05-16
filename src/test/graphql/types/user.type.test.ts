@@ -3,7 +3,9 @@ import { schema } from '../../../../src/graphql'
 import { server } from '../../../server'
 
 beforeAll(() => {
-  server
+  console.log = jest.fn
+  console.info = jest.fn
+  console.log(server)
 })
 
 describe('GQ User', () => {
