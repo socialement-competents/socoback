@@ -8,6 +8,12 @@ describe('GET /health', () => {
       .expect(200)
   })
 
+  it('should return 200 OK to graphiql', () => {
+    return request(app)
+      .get('/graphql')
+      .expect(200)
+  })
+
   it('should return 404 Not Found', () => {
     return request(app)
       .get('/api/')
