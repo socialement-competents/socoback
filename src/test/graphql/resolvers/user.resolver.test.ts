@@ -25,10 +25,7 @@ describe('user controller', () => {
         email: expect.stringContaining('create-'),
         firstname: 'rafou',
         lastname: 'nadal',
-        salt: expect.any(String),
-        hash: expect.any(String),
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date)
+        token: expect.any(String)
       })
     )
   })

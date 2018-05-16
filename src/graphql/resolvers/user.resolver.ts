@@ -43,7 +43,8 @@ export async function create(
     user.lastname = lastname
     user.setPassword(password)
 
-    return await user.save()
+    const saved = await user.save()
+    return saved.toAuthJSON()
   } catch (e) {
     return e
   }
