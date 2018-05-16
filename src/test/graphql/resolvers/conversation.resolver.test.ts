@@ -7,12 +7,12 @@ import { create as createUser } from '../../../graphql/resolvers/user.resolver'
 import { server } from '../../../server'
 
 beforeAll(() => {
-  server
+  console.log = jest.fn
+  console.info = jest.fn
+  console.log(server)
 })
 
 describe('conversation controller', () => {
-  console.log = jest.fn
-  console.info = jest.fn
 
   it('creates conversation', async () => {
     const user = await createUser(

@@ -2,7 +2,9 @@ import { create, getAll, getById } from '../../../graphql/resolvers/user.resolve
 import { server } from '../../../server'
 
 beforeAll(() => {
-  server
+  console.log = jest.fn
+  console.info = jest.fn
+  console.log(server)
 })
 
 describe('user controller', () => {
@@ -10,9 +12,6 @@ describe('user controller', () => {
   const password = 'test'
   const firstname = 'rafou'
   const lastname = 'nadal'
-  // on mock le console.log pour éviter de spam STDIN
-  console.log = jest.fn
-  console.info = jest.fn
 
   it('creates users', async () => {
     const result = await create(
