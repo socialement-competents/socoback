@@ -1,7 +1,9 @@
+import { withFilter } from 'graphql-subscriptions'
 import { Schema } from 'mongoose'
+import { pubsub } from '../pubsub'
 import { Conversation } from '../../models/Conversation'
 
-export function getAll(limit: number) {
+export function getAll(limit?: number) {
   return Conversation.find()
     .populate('user')
     .populate('operator')
@@ -25,8 +27,17 @@ export async function create(
     const conversation = new Conversation()
     conversation.user = userId
     conversation.operator = operatorId
-    return await conversation.save()
+    const saved = await conversation.save()
+    pubsub.publish('conversationAdded', { conversationAdded: saved })
+    return saved
   } catch (e) {
     return e
   }
+}
+
+export const conversationAdded = {
+  subscribe: withFilter(
+    () => pubsub.asyncIterator('conversationAdded'),
+    (payload, args) => true
+  )
 }

@@ -27,7 +27,7 @@ export async function create(
   message.user = userId
   message.content = content
   const savedMessage = await message.save()
-  pubsub.publish('messageAdded', { messageAdded: savedMessage })
+  pubsub.publish('messageAdded', { messageAdded: savedMessage, conversationId: conversation._id })
   conversation.messages.push(savedMessage._id)
   await conversation.save()
   return savedMessage
@@ -36,8 +36,6 @@ export async function create(
 export const messageAdded = {
   subscribe: withFilter(
     () => pubsub.asyncIterator('messageAdded'),
-    (payload, args) => {
-      return payload.messageAdded.id === args.id
-    }
+    (payload, args) => payload.conversationId === args.conversationId
   )
 }

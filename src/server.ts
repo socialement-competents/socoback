@@ -1,7 +1,7 @@
 import { createServer as createHttpServer, Server as httpServer } from 'http'
 import * as express from 'express'
 import * as session from 'express-session'
-import * as graphqlHTTP from 'express-graphql'
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { execute, subscribe } from 'graphql'
 import { urlencoded, json } from 'body-parser'
@@ -37,12 +37,6 @@ export class Server {
     this.initSockets()
     this.initTransporter()
     this.routes()
-    if (this.isProduction) {
-      new SubscriptionServer(
-        { schema, execute, subscribe },
-        { server: this.server, path: this.WS_GQL_PATH }
-      )
-    }
   }
 
   private config() {
@@ -72,13 +66,21 @@ export class Server {
   private routes() {
     this.app.use(new MainRouter(this.io, this.transporter).router)
 
+    this.app.get(
+      '/graphql',
+      graphiqlExpress({
+        endpointURL: '/graphql',
+        subscriptionsEndpoint: `ws://localhost:3000/subscriptions`
+      })
+    )
+
     this.app.use(
       '/graphql',
+      json(),
       cors(),
-      graphqlHTTP({
+      graphqlExpress({
         schema,
-        rootValue: global,
-        graphiql: true
+        rootValue: global
       })
     )
 
@@ -122,6 +124,10 @@ export class Server {
     })
     app.server.listen(app.app.get('port'), () => {
       console.log(`Server is listening on port ${app.app.get('port')}`)
+      new SubscriptionServer(
+        { schema, execute, subscribe },
+        { server: app.server, path: app.WS_GQL_PATH }
+      )
     })
     return app
   }

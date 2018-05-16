@@ -88,7 +88,7 @@ const subscription = {
         type: GraphQLString
       }
     },
-    resolve: (root, { id }) => messageAdded.subscribe(id)
+    ...messageAdded
   }
 }
 
