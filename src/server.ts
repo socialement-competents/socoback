@@ -1,7 +1,7 @@
 import { createServer as createHttpServer, Server as httpServer } from 'http'
 import * as express from 'express'
 import * as session from 'express-session'
-import * as graphqlHTTP from 'express-graphql'
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { execute, subscribe } from 'graphql'
 import { urlencoded, json } from 'body-parser'
@@ -23,6 +23,7 @@ export class Server {
   private server: httpServer
   public transporter: Transporter
   private isProduction: boolean = process.env.NODE_ENV === 'production'
+  private isDevelopement: boolean = process.env.NODE_ENV === 'developement'
   private secret: string = process.env.SESSION_SECRET
   private emailHost: string = process.env.EMAIL_HOST
   private emailPort: string = process.env.EMAIL_PORT
@@ -36,18 +37,13 @@ export class Server {
     this.createServer()
     this.initSockets()
     this.initTransporter()
+    this.initSubscriptionWS()
     this.routes()
-    if (this.isProduction) {
-      new SubscriptionServer(
-        { schema, execute, subscribe },
-        { server: this.server, path: this.WS_GQL_PATH }
-      )
-    }
   }
 
   private config() {
     try {
-      if (!this.isProduction) set('debug', true)
+      if (this.isDevelopement) set('debug', true)
       connect(process.env.MONGODB_URI)
     } catch (e) {
       createConnection(process.env.MONGODB_URI)
@@ -72,13 +68,21 @@ export class Server {
   private routes() {
     this.app.use(new MainRouter(this.io, this.transporter).router)
 
+    this.app.get(
+      '/graphql',
+      graphiqlExpress({
+        endpointURL: '/graphql',
+        subscriptionsEndpoint: `ws://localhost:3000/subscriptions`
+      })
+    )
+
     this.app.use(
       '/graphql',
+      json(),
       cors(),
-      graphqlHTTP({
+      graphqlExpress({
         schema,
-        rootValue: global,
-        graphiql: true
+        rootValue: global
       })
     )
 
@@ -112,6 +116,13 @@ export class Server {
     })
   }
 
+  private initSubscriptionWS() {
+    new SubscriptionServer(
+      { schema, execute, subscribe },
+      { server: this.server, path: this.WS_GQL_PATH }
+    )
+  }
+
   public static bootstrap(): Server {
     const app = new Server()
     app.io.on('connect', (socket: io.Socket) => {
@@ -128,5 +139,3 @@ export class Server {
 }
 
 export const server = new Server()
-
-export default server.app

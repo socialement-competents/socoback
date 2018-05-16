@@ -1,9 +1,9 @@
 import * as request from 'supertest'
-import app from '../../../server'
+import { server } from '../../../server'
 
 describe('Users routes', () => {
   it('creates an user', async () => {
-    const result = await request(app)
+    const result = await request(server.app)
       .post('/api/users')
       .send({
         firstname: 'rafael',
@@ -24,7 +24,7 @@ describe('Users routes', () => {
 
   it('rejects log in', async () => {
     const email = `intg-test-${new Date().getTime()}@tennisi.fy`
-    await request(app)
+    await request(server.app)
       .post('/api/users')
       .send({
         firstname: 'rafael',
@@ -33,7 +33,7 @@ describe('Users routes', () => {
         password: 'ok'
       })
       .set('content-type', 'application/json')
-    const result = await request(app)
+    const result = await request(server.app)
       .post('/api/users/login')
       .send({
         email,
@@ -44,7 +44,7 @@ describe('Users routes', () => {
 
   it('logs in successfully', async () => {
     const email = `intg-test-${new Date().getTime()}@tennisi.fy`
-    await request(app)
+    await request(server.app)
       .post('/api/users')
       .send({
         firstname: 'rafael',
@@ -53,7 +53,7 @@ describe('Users routes', () => {
         password: 'ok'
       })
       .set('content-type', 'application/json')
-    const result = await request(app)
+    const result = await request(server.app)
       .post('/api/users/login')
       .send({
         email,
@@ -63,7 +63,7 @@ describe('Users routes', () => {
   })
 
   it('modifies an user', async () => {
-    const createResult = await request(app)
+    const createResult = await request(server.app)
       .post('/api/users')
       .send({
         firstname: 'Rafael',
@@ -77,7 +77,7 @@ describe('Users routes', () => {
 
     const { token, _id } = createResult.body
 
-    const putResult = await request(app)
+    const putResult = await request(server.app)
       .put(`/api/users/${_id}`)
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')

@@ -101,4 +101,4 @@ export interface IUser extends Document {
   validPassword: (password: string) => boolean
 }
 
-export const User: Model<IUser> = model<IUser>('User', UserSchema)
+export const User: Model<IUser> = model<IUser>('User', UserSchema, 'user')

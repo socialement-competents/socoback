@@ -2,23 +2,28 @@ import {
   create,
   getAll,
   getById
-} from '../../../graphql/controllers/message.ctrl'
-import { create as createConv } from '../../../graphql/controllers/conversation.ctrl'
-import { create as createUser } from '../../../graphql/controllers/user.ctrl'
+} from '../../../graphql/resolvers/message.resolver'
+import { create as createConv } from '../../../graphql/resolvers/conversation.resolver'
+import { create as createUser } from '../../../graphql/resolvers/user.resolver'
+import { server } from '../../../server'
 
-describe('user controller', () => {
+beforeAll(() => {
   console.log = jest.fn
   console.info = jest.fn
+  console.log(server)
+})
+
+describe('message controller', () => {
 
   it('creates messages', async () => {
     const user = await createUser(
-      `user-${new Date().getTime()}@socoback.fr`,
+      `user-message-${new Date().getTime()}@socoback.fr`,
       'a',
       'a',
       'a'
     )
     const op = await createUser(
-      `op-${new Date().getTime()}@socoback.fr`,
+      `op-message-${new Date().getTime()}@socoback.fr`,
       'b',
       'b',
       'b'
@@ -35,13 +40,13 @@ describe('user controller', () => {
 
   it('gets a message', async () => {
     const user = await createUser(
-      `user-${new Date().getTime()}@socoback.fr`,
+      `user-message-${new Date().getTime()}@socoback.fr`,
       'a',
       'a',
       'a'
     )
     const op = await createUser(
-      `op-${new Date().getTime()}@socoback.fr`,
+      `op-message-${new Date().getTime()}@socoback.fr`,
       'b',
       'b',
       'b'
@@ -67,13 +72,13 @@ describe('user controller', () => {
 
   it('gets several messages', async () => {
     const user = await createUser(
-      `user-${new Date().getTime()}@socoback.fr`,
+      `user-message-${new Date().getTime()}@socoback.fr`,
       'a',
       'a',
       'a'
     )
     const op = await createUser(
-      `op-${new Date().getTime()}@socoback.fr`,
+      `op-message-${new Date().getTime()}@socoback.fr`,
       'b',
       'b',
       'b'

@@ -1,13 +1,17 @@
-import { create, getAll, getById } from '../../../graphql/controllers/user.ctrl'
+import { create, getAll, getById } from '../../../graphql/resolvers/user.resolver'
+import { server } from '../../../server'
+
+beforeAll(() => {
+  console.log = jest.fn
+  console.info = jest.fn
+  console.log(server)
+})
 
 describe('user controller', () => {
   const email = `test-${new Date().getTime()}@socoback.fr`
   const password = 'test'
   const firstname = 'rafou'
   const lastname = 'nadal'
-  // on mock le console.log pour éviter de spam STDIN
-  console.log = jest.fn
-  console.info = jest.fn
 
   it('creates users', async () => {
     const result = await create(
@@ -34,7 +38,6 @@ describe('user controller', () => {
       await create(`not-unique@test.fr`, password, firstname, lastname)
       // this call must throw
       await create(`not-unique@test.fr`, password, firstname, lastname)
-      throw new Error('Expected to throw a validation error')
     } catch (e) {
       expect(e.toString()).toBe('ValidationError: email: is already taken')
     }
