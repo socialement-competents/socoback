@@ -2,8 +2,8 @@ import {
   create as createConv,
   getAll,
   getById
-} from '../../../graphql/controllers/conversation.ctrl'
-import { create as createUser } from '../../../graphql/controllers/user.ctrl'
+} from '../../../graphql/resolvers/conversation.resolver'
+import { create as createUser } from '../../../graphql/resolvers/user.resolver'
 import { server } from '../../../server'
 
 beforeAll(() => {
@@ -16,13 +16,13 @@ describe('conversation controller', () => {
 
   it('creates conversation', async () => {
     const user = await createUser(
-      `user-${new Date().getTime()}@socoback.fr`,
+      `user-conversation-${new Date().getTime()}@socoback.fr`,
       'a',
       'a',
       'a'
     )
     const op = await createUser(
-      `op-${new Date().getTime()}@socoback.fr`,
+      `op-conversation-${new Date().getTime()}@socoback.fr`,
       'b',
       'b',
       'b'
@@ -36,13 +36,13 @@ describe('conversation controller', () => {
 
   it('gets a conversation', async () => {
     const user = await createUser(
-      `user-${new Date().getTime()}@socoback.fr`,
+      `user-conversation-${new Date().getTime()}@socoback.fr`,
       'a',
       'a',
       'a'
     )
     const op = await createUser(
-      `op-${new Date().getTime()}@socoback.fr`,
+      `op-conversation-${new Date().getTime()}@socoback.fr`,
       'b',
       'b',
       'b'
@@ -57,13 +57,13 @@ describe('conversation controller', () => {
 
   it('gets several conversations', async () => {
     const user = await createUser(
-      `user-${new Date().getTime()}@socoback.fr`,
+      `user-conversation-${new Date().getTime()}@socoback.fr`,
       'a',
       'a',
       'a'
     )
     const op = await createUser(
-      `op-${new Date().getTime()}@socoback.fr`,
+      `op-conversation-${new Date().getTime()}@socoback.fr`,
       'b',
       'b',
       'b'

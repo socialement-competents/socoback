@@ -12,7 +12,7 @@ import {
   getById,
   messageAdded,
   create
-} from '../controllers/message.ctrl'
+} from '../resolvers/message.resolver'
 
 export const messageType = new GraphQLObjectType({
   name: 'Message',

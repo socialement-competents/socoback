@@ -3,20 +3,28 @@ import { Schema } from 'mongoose'
 import { pubsub } from '../pubsub'
 import { Conversation } from '../../models/Conversation'
 
-export function getAll(limit?: number) {
-  return Conversation.find()
-    .populate('user')
-    .populate('operator')
-    .populate('messages')
-    .limit(limit)
-    .exec()
+export async function getAll(limit?: number) {
+  try {
+    return await Conversation.find()
+      .populate('user')
+      .populate('operator')
+      .populate('messages')
+      .limit(limit)
+      .exec()
+  } catch (e) {
+    return e
+  }
 }
 
 export async function getById(id: string) {
-  return await Conversation.findById(id)
-    .populate('user')
-    .populate('operator')
-    .populate('messages')
+  try {
+    return await Conversation.findById(id)
+      .populate('user')
+      .populate('operator')
+      .populate('messages')
+  } catch (e) {
+    return e
+  }
 }
 
 export async function create(

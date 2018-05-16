@@ -6,7 +6,7 @@ import {
   GraphQLInt
 } from 'graphql'
 import { userType } from './user'
-import { getAll, getById, create, conversationAdded } from '../controllers/conversation.ctrl'
+import { getAll, getById, create, conversationAdded } from '../resolvers/conversation.resolver'
 import { messageType } from './message'
 
 export const conversationType = new GraphQLObjectType({

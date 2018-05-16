@@ -29,5 +29,6 @@ export interface IMessage extends Document {
 
 export const Message: Model<IMessage> = model<IMessage>(
   'Message',
-  MessageSchema
+  MessageSchema,
+  'message'
 )

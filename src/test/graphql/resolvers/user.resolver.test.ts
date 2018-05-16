@@ -1,4 +1,4 @@
-import { create, getAll, getById } from '../../../graphql/controllers/user.ctrl'
+import { create, getAll, getById } from '../../../graphql/resolvers/user.resolver'
 import { server } from '../../../server'
 
 beforeAll(() => {
@@ -39,7 +39,6 @@ describe('user controller', () => {
       await create(`not-unique@test.fr`, password, firstname, lastname)
       // this call must throw
       await create(`not-unique@test.fr`, password, firstname, lastname)
-      throw new Error('Expected to throw a validation error')
     } catch (e) {
       expect(e.toString()).toBe('ValidationError: email: is already taken')
     }

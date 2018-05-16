@@ -26,5 +26,6 @@ export interface IConversation extends Document {
 
 export const Conversation: Model<IConversation> = model<IConversation>(
   'Conversation',
-  ConversationSchema
+  ConversationSchema,
+  'conversation'
 )
