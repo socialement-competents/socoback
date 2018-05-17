@@ -55,13 +55,6 @@ export async function update(
   }
 }
 
-export const conversationUpdated = {
-  subscribe: withFilter(
-    () => pubsub.asyncIterator('conversationUpdated'),
-    (payload, args) => true
-  )
-}
-
 export const conversationAdded = {
   subscribe: withFilter(
     () => pubsub.asyncIterator('conversationAdded'),
