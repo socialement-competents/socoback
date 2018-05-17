@@ -41,7 +41,7 @@ export async function create(
     pubsub.publish('messageAdded', { messageAdded: savedMessage, conversationId: conversation._id })
     conversation.messages.push(savedMessage._id)
     await conversation.save()
-    return savedMessage
+    return savedMessage.populate('user').execPopulate()
   } catch (e) {
     return e
   }

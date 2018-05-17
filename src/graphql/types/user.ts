@@ -3,10 +3,11 @@ import {
   GraphQLList,
   GraphQLNonNull,
   GraphQLString,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLBoolean
 } from 'graphql'
 
-import { getAll, getById, create, logIn } from '../resolvers/user.resolver'
+import { getAll, getById, create, logIn, update } from '../resolvers/user.resolver'
 
 export const userType = new GraphQLObjectType({
   name: 'User',
@@ -27,6 +28,18 @@ export const userType = new GraphQLObjectType({
     lastname: {
       type: GraphQLString,
       description: 'The lastname'
+    },
+    image: {
+      type: GraphQLString,
+      description: 'The image/avatar'
+    },
+    isValidated: {
+      type: GraphQLBoolean,
+      description: 'Is account validated'
+    },
+    balance: {
+      type: GraphQLInt,
+      description: 'Total tokens'
     },
     token: {
       type: GraphQLString,
@@ -87,10 +100,32 @@ const mutation = {
       },
       lastname: {
         type: new GraphQLNonNull(GraphQLString)
+      },
+      image: {
+        type: GraphQLString
       }
     },
-    resolve: (obj, { email, password, firstname, lastname }) =>
-      create(email, password, firstname, lastname)
+    resolve: (obj, { email, password, firstname, lastname, image }) =>
+      create(email, password, firstname, lastname, image)
+  },
+  updateUser: {
+    type: userType,
+    args: {
+      id: {
+        type: new GraphQLNonNull(GraphQLString)
+      },
+      firstname: {
+        type: GraphQLString
+      },
+      lastname: {
+        type: GraphQLString
+      },
+      image: {
+        type: GraphQLString
+      }
+    },
+    resolve: (obj, { id, firstname, lastname, image }) =>
+      update(id, firstname, lastname, image)
   }
 }
 

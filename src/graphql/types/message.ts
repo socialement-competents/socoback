@@ -33,6 +33,10 @@ export const messageType = new GraphQLObjectType({
     content: {
       type: GraphQLString,
       description: 'The message content'
+    },
+    createdAt: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'Messages of conversations'
     }
   })
 })
