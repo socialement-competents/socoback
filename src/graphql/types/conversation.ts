@@ -1,12 +1,12 @@
 import {
   GraphQLObjectType,
   GraphQLList,
-  GraphQLNonNull,
   GraphQLString,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLNonNull
 } from 'graphql'
 import { userType } from './user'
-import { getAll, getById, create, conversationAdded } from '../resolvers/conversation.resolver'
+import { getAll, getById, create, conversationAdded, update, conversationUpdated } from '../resolvers/conversation.resolver'
 import { messageType } from './message'
 
 export const conversationType = new GraphQLObjectType({
@@ -27,6 +27,10 @@ export const conversationType = new GraphQLObjectType({
     },
     messages: {
       type: new GraphQLList(messageType),
+      description: 'Messages of conversations'
+    },
+    createdAt: {
+      type: new GraphQLNonNull(GraphQLString),
       description: 'Messages of conversations'
     }
   })
@@ -60,13 +64,25 @@ const mutation = {
     type: conversationType,
     args: {
       userId: {
-        type: new GraphQLNonNull(GraphQLString)
+        type: GraphQLString
       },
       operatorId: {
         type: GraphQLString
       }
     },
     resolve: (obj, { userId, operatorId }) => create(userId, operatorId)
+  },
+  updateConversation: {
+    type: conversationType,
+    args: {
+      id: {
+        type: new GraphQLNonNull(GraphQLString)
+      },
+      operatorId: {
+        type: new GraphQLNonNull(GraphQLString)
+      }
+    },
+    resolve: (obj, { id, operatorId }) => update(id, operatorId)
   }
 }
 
@@ -74,6 +90,10 @@ const subscription = {
   conversationAdded: {
     type: conversationType,
     ...conversationAdded
+  },
+  conversationUpdated: {
+    type: conversationType,
+    ...conversationUpdated
   }
 }
 

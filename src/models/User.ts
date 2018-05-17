@@ -12,7 +12,8 @@ const UserSchema = new Schema(
       lowercase: true,
       unique: true,
       required: [true, "can't be blank"],
-      match: [/\S+@\S+\.\S+/, 'is invalid']
+      match: [/\S+@\S+\.\S+/, 'is invalid'],
+      dropDups: true
     },
     firstname: {
       type: String,
@@ -24,9 +25,16 @@ const UserSchema = new Schema(
       lowercase: true,
       required: [true, "can't be blank"]
     },
+    image: {
+      type: String
+    },
     hash: String,
     salt: String,
-    isValidated: Boolean
+    isValidated: Boolean,
+    balance: {
+      type: Number,
+      default: 0
+    }
   },
   { timestamps: true }
 )
@@ -72,6 +80,8 @@ UserSchema.methods = {
       firstname: this.firstname,
       lastname: this.lastname,
       email: this.email,
+      image: this.image,
+      isValidated: this.isValidated,
       token: this.generateJWT()
     }
   },
@@ -89,11 +99,13 @@ export interface IUser extends Document {
   lastname: string
   firstname: string
   email: string
+  image: string
   hash: string
   salt: string
   token?: string
   fullname?: string
   isValidated: boolean
+  balance: number
   toProfileJSONFor: (user: IUser) => IUser
   toAuthJSON: () => IUser
   generateJWT: () => string

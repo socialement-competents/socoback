@@ -29,6 +29,41 @@ describe('GQ User', () => {
     expect(firstname).toBe('ok')
   })
 
+  it('should modify an user', async () => {
+    const mail = `intg-${new Date().getTime()}@ok.ok`
+    const query = `
+      mutation{
+        addUser(email: "${mail}", lastname: "ok", firstname: "ok", password: "ok"){
+          _id
+          email
+          firstname
+          lastname
+        }
+      }
+    `
+    const { data: { addUser: { _id } } } = await graphql(
+      schema,
+      query
+    )
+
+    const update = `
+      mutation{
+        updateUser(id: "${_id}", firstname: "newFirstname", lastname: "newLastname"){
+          firstname
+          lastname
+        }
+      }
+    `
+    const { data: { updateUser } } = await graphql(
+      schema,
+      update
+    )
+
+    expect(updateUser.firstname).toBe('newfirstname')
+    expect(updateUser.lastname).toBe('newlastname')
+
+  })
+
   it('should log in an user', async () => {
     const mail = `intg-${new Date().getTime()}@ok.ok`
     const query = `

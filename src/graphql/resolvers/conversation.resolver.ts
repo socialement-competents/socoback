@@ -29,7 +29,7 @@ export async function getById(id: string) {
 
 export async function create(
   userId: Schema.Types.ObjectId,
-  operatorId: Schema.Types.ObjectId
+  operatorId?: Schema.Types.ObjectId
 ) {
   try {
     const conversation = new Conversation()
@@ -41,6 +41,25 @@ export async function create(
   } catch (e) {
     return e
   }
+}
+
+export async function update(
+  id: Schema.Types.ObjectId,
+  operator: Schema.Types.ObjectId
+) {
+  try {
+    await Conversation.updateOne({ _id: id }, { operator })
+    return await Conversation.findById(id).populate('operator').exec()
+  } catch (e) {
+    return e
+  }
+}
+
+export const conversationUpdated = {
+  subscribe: withFilter(
+    () => pubsub.asyncIterator('conversationUpdated'),
+    (payload, args) => true
+  )
 }
 
 export const conversationAdded = {

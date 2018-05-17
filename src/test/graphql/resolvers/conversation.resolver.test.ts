@@ -1,7 +1,8 @@
 import {
   create as createConv,
   getAll,
-  getById
+  getById,
+  update
 } from '../../../graphql/resolvers/conversation.resolver'
 import { create as createUser } from '../../../graphql/resolvers/user.resolver'
 import { server } from '../../../server'
@@ -32,6 +33,28 @@ describe('conversation controller', () => {
     const conv = await createConv(userId, opId)
 
     expect(conv['id']).toBeTruthy()
+  })
+
+  it('modifies conversation', async () => {
+    const user = await createUser(
+      `user-conversation-${new Date().getTime()}@socoback.fr`,
+      'a',
+      'a',
+      'a'
+    )
+    const op = await createUser(
+      `op-conversation-${new Date().getTime()}@socoback.fr`,
+      'b',
+      'b',
+      'b'
+    )
+    const userId = user['_id']
+    const opId = op['_id']
+    const conv = await createConv(userId)
+
+    const updated = await update(conv.id, opId)
+
+    expect(updated.operator).toBeDefined()
   })
 
   it('gets a conversation', async () => {

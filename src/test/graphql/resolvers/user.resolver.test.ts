@@ -1,4 +1,4 @@
-import { create, getAll, getById } from '../../../graphql/resolvers/user.resolver'
+import { create, getAll, getById, update } from '../../../graphql/resolvers/user.resolver'
 import { server } from '../../../server'
 
 beforeAll(() => {
@@ -12,25 +12,42 @@ describe('user controller', () => {
   const password = 'test'
   const firstname = 'rafou'
   const lastname = 'nadal'
+  const image = 'randomImage'
 
   it('creates users', async () => {
     const result = await create(
       `create-${email}`,
       password,
       firstname,
-      lastname
+      lastname,
+      image
     )
     expect(result).toEqual(
       expect.objectContaining({
         email: expect.stringContaining('create-'),
         firstname: 'rafou',
         lastname: 'nadal',
-        salt: expect.any(String),
-        hash: expect.any(String),
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date)
+        image: 'randomImage',
+        token: expect.any(String)
       })
     )
+  })
+
+  it('modifies users', async () => {
+    const result = await create(
+      `new-${email}`,
+      password,
+      firstname,
+      lastname,
+      image
+    )
+    const updated = await update(result._id, 'ok2', 'ok3', 'randomImage')
+    expect(updated._id).toBeDefined()
+    expect(updated.email).toBeDefined()
+    expect(updated.firstname).toBeDefined()
+    expect(updated.lastname).toBeDefined()
+    expect(updated.image).toBeDefined()
+    expect(updated.token).toBeDefined()
   })
 
   it(`doesn't duplicate users`, async () => {

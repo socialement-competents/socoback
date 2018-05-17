@@ -34,16 +34,34 @@ export async function create(
   email: string,
   password: string,
   firstname: string,
-  lastname: string
+  lastname: string,
+  image?: string
 ) {
   try {
     const user = new User()
     user.email = email
     user.firstname = firstname
     user.lastname = lastname
+    user.image = image
     user.setPassword(password)
 
-    return await user.save()
+    const saved = await user.save()
+    return saved.toAuthJSON()
+  } catch (e) {
+    return e
+  }
+}
+
+export async function update(
+  id: string,
+  firstname?: string,
+  lastname?: string,
+  image?: string
+) {
+  try {
+    await User.updateOne({ _id: id }, { firstname, lastname, image })
+    const updated = await User.findById(id)
+    return updated.toAuthJSON()
   } catch (e) {
     return e
   }
