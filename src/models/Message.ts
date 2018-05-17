@@ -12,8 +12,7 @@ const MessageSchema = new Schema(
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: [true, "can't be blank"]
+      ref: 'User'
     }
   },
   { timestamps: true }

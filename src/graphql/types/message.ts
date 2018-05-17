@@ -72,14 +72,14 @@ const mutation = {
         type: new GraphQLNonNull(GraphQLString)
       },
       userId: {
-        type: new GraphQLNonNull(GraphQLString)
+        type: GraphQLString
       },
       content: {
         type: new GraphQLNonNull(GraphQLString)
       }
     },
     resolve: (obj, { conversationId, userId, content }) =>
-      create(conversationId, userId, content)
+      create(conversationId, content, userId)
   }
 }
 

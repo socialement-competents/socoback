@@ -33,7 +33,7 @@ describe('message controller', () => {
     const conv = await createConv(userId, opId)
     const conversationId = conv['_id']
 
-    const result = await create(conversationId, userId, 'wonderful message')
+    const result = await create(conversationId, 'wonderful message', userId)
 
     expect(result['id']).toBeTruthy()
   })
@@ -58,11 +58,11 @@ describe('message controller', () => {
 
     await create(
       conversationId,
-      userId,
-      'another message to make sure it gets the right one'
+      'another message to make sure it gets the right one',
+      userId
     )
-    const msg = await create(conversationId, userId, 'wonderful message')
-    await create(conversationId, userId, 'yet another message')
+    const msg = await create(conversationId, 'wonderful message', userId)
+    await create(conversationId, 'yet another message', userId)
 
     const msgId = msg['_id']
     expect(msgId).toBeTruthy()
@@ -88,9 +88,9 @@ describe('message controller', () => {
     const conv = await createConv(userId, opId)
     const conversationId = conv['_id']
 
-    await create(conversationId, userId, 'wonderful message1')
-    await create(conversationId, opId, 'wonderful message2')
-    await create(conversationId, userId, 'wonderful message3')
+    await create(conversationId, 'wonderful message1', userId)
+    await create(conversationId, 'wonderful message2', opId)
+    await create(conversationId, 'wonderful message3', userId)
 
     const max = 5
     const result = await getAll(max)
