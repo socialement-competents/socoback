@@ -30,7 +30,11 @@ const UserSchema = new Schema(
     },
     hash: String,
     salt: String,
-    isValidated: Boolean
+    isValidated: Boolean,
+    balance: {
+      type: Number,
+      default: 0
+    }
   },
   { timestamps: true }
 )
@@ -77,6 +81,7 @@ UserSchema.methods = {
       lastname: this.lastname,
       email: this.email,
       image: this.image,
+      isValidated: this.isValidated,
       token: this.generateJWT()
     }
   },
@@ -100,6 +105,7 @@ export interface IUser extends Document {
   token?: string
   fullname?: string
   isValidated: boolean
+  balance: number
   toProfileJSONFor: (user: IUser) => IUser
   toAuthJSON: () => IUser
   generateJWT: () => string

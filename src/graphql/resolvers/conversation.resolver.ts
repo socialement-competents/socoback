@@ -29,7 +29,7 @@ export async function getById(id: string) {
 
 export async function create(
   userId: Schema.Types.ObjectId,
-  operatorId: Schema.Types.ObjectId
+  operatorId?: Schema.Types.ObjectId
 ) {
   try {
     const conversation = new Conversation()
@@ -38,6 +38,18 @@ export async function create(
     const saved = await conversation.save()
     pubsub.publish('conversationAdded', { conversationAdded: saved })
     return saved
+  } catch (e) {
+    return e
+  }
+}
+
+export async function update(
+  id: string,
+  operator: string
+) {
+  try {
+    await Conversation.updateOne({ _id: id }, { operator })
+    return await Conversation.findById(id).populate('operator').exec()
   } catch (e) {
     return e
   }

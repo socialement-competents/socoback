@@ -3,7 +3,8 @@ import {
   GraphQLList,
   GraphQLNonNull,
   GraphQLString,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLBoolean
 } from 'graphql'
 
 import { getAll, getById, create, logIn, update } from '../resolvers/user.resolver'
@@ -31,6 +32,14 @@ export const userType = new GraphQLObjectType({
     image: {
       type: GraphQLString,
       description: 'The image/avatar'
+    },
+    isValidated: {
+      type: GraphQLBoolean,
+      description: 'Is account validated'
+    },
+    balance: {
+      type: GraphQLInt,
+      description: 'Total tokens'
     },
     token: {
       type: GraphQLString,

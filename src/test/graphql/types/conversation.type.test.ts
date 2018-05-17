@@ -44,6 +44,48 @@ describe('GQ Conversation', () => {
     expect(addConversation.messages).toHaveLength(0)
   })
 
+  it('should modify a conversation', async () => {
+    const mail = `test-${new Date().getTime()}@ok.ok`
+    const createUser = `
+      mutation{
+        addUser(email: "${mail}", lastname: "ok", firstname: "ok", password: "ok"){
+          _id
+          email
+          firstname
+          lastname
+        }
+      }
+    `
+    const { data: { addUser: { _id } } } = await graphql(schema, createUser)
+
+    const query = `
+      mutation{
+        addConversation(userId: "${_id}") {
+          _id
+          messages{
+            _id
+          }
+        }
+      }
+    `
+    const { data: { addConversation } } = await graphql(schema, query)
+
+    const update = `
+      mutation{
+        updateConversation(id: "${addConversation._id}", operatorId: "${_id}"){
+          operator{
+            _id
+            email
+          }
+        }
+      }
+    `
+
+    const { data: { updateConversation } } = await graphql(schema, update)
+    expect(updateConversation.operator._id).toBeDefined()
+    expect(updateConversation.operator.email).toBe(mail)
+  })
+
   it('should get a conversation by id', async () => {
     const mail = `test-${new Date().getTime()}@ok.ok`
     const createUser = `
