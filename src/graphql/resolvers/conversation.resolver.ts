@@ -44,8 +44,8 @@ export async function create(
 }
 
 export async function update(
-  id: string,
-  operator: string
+  id: Schema.Types.ObjectId,
+  operator: Schema.Types.ObjectId
 ) {
   try {
     await Conversation.updateOne({ _id: id }, { operator })
@@ -53,6 +53,13 @@ export async function update(
   } catch (e) {
     return e
   }
+}
+
+export const conversationUpdated = {
+  subscribe: withFilter(
+    () => pubsub.asyncIterator('conversationUpdated'),
+    (payload, args) => true
+  )
 }
 
 export const conversationAdded = {
