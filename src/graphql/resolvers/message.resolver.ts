@@ -50,6 +50,6 @@ export async function create(
 export const messageAdded = {
   subscribe: withFilter(
     () => pubsub.asyncIterator('messageAdded'),
-    (payload, args) => payload.conversationId === args.conversationId
+    (payload, args) => String(payload.conversationId) === String(args.id)
   )
 }

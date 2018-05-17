@@ -6,7 +6,7 @@ import {
   GraphQLNonNull
 } from 'graphql'
 import { userType } from './user'
-import { getAll, getById, create, conversationAdded, update, conversationUpdated } from '../resolvers/conversation.resolver'
+import { getAll, getById, create, conversationAdded, update } from '../resolvers/conversation.resolver'
 import { messageType } from './message'
 
 export const conversationType = new GraphQLObjectType({
@@ -90,10 +90,6 @@ const subscription = {
   conversationAdded: {
     type: conversationType,
     ...conversationAdded
-  },
-  conversationUpdated: {
-    type: conversationType,
-    ...conversationUpdated
   }
 }
 
