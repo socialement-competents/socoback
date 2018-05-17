@@ -51,3 +51,18 @@ export async function create(
     return e
   }
 }
+
+export async function update(
+  id: string,
+  firstname?: string,
+  lastname?: string,
+  image?: string
+) {
+  try {
+    await User.updateOne({ _id: id }, { firstname, lastname, image })
+    const updated = await User.findById(id)
+    return updated.toAuthJSON()
+  } catch (e) {
+    return e
+  }
+}

@@ -1,4 +1,4 @@
-import { create, getAll, getById } from '../../../graphql/resolvers/user.resolver'
+import { create, getAll, getById, update } from '../../../graphql/resolvers/user.resolver'
 import { server } from '../../../server'
 
 beforeAll(() => {
@@ -27,6 +27,27 @@ describe('user controller', () => {
         email: expect.stringContaining('create-'),
         firstname: 'rafou',
         lastname: 'nadal',
+        image: 'randomImage',
+        token: expect.any(String)
+      })
+    )
+  })
+
+  it('modifies users', async () => {
+    const result = await create(
+      `new-${email}`,
+      password,
+      firstname,
+      lastname,
+      image
+    )
+    const updated = await update(result._id, 'ok2', 'ok3', 'randomImage')
+    expect(updated).toEqual(
+      expect.objectContaining({
+        _id: expect.any(String),
+        email: expect.stringContaining('new-'),
+        firstname: 'ok2',
+        lastname: 'ok3',
         image: 'randomImage',
         token: expect.any(String)
       })
