@@ -29,13 +29,13 @@ export async function getById(id: string) {
 
 export async function create(
   conversationId: Schema.Types.ObjectId,
-  userId: Schema.Types.ObjectId,
-  content: string
+  content: string,
+  userId?: Schema.Types.ObjectId
 ) {
   try {
     const conversation = await Conversation.findById(conversationId)
     const message = new Message()
-    message.user = userId
+    if (userId) message.user = userId
     message.content = content
     const savedMessage = await message.save()
     pubsub.publish('messageAdded', { messageAdded: savedMessage, conversationId: conversation._id })
