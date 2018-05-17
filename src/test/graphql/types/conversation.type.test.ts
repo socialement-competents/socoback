@@ -1,5 +1,5 @@
 import { graphql } from 'graphql'
-import { addMockFunctionsToSchema } from 'graphql-tools'
+// import { addMockFunctionsToSchema } from 'graphql-tools'
 import { schema } from '../../../../src/graphql'
 import { server } from '../../../server'
 
