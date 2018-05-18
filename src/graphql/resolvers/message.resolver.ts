@@ -35,10 +35,14 @@ export async function create(
   try {
     const conversation = await Conversation.findById(conversationId)
     const message = new Message()
-    if (userId) message.user = userId
+    if (userId) {
+      message.user = userId
+      await Conversation.updateOne({ _id: conversation._id }, { operator: userId })
+    }
     message.content = content
     const savedMessage = await message.save()
-    pubsub.publish('messageAdded', { messageAdded: savedMessage, conversationId: conversation._id })
+    const populated = savedMessage.populate('user').execPopulate()
+    pubsub.publish('messageAdded', { messageAdded: populated, conversationId: conversation._id })
     conversation.messages.push(savedMessage._id)
     await conversation.save()
     return savedMessage.populate('user').execPopulate()
