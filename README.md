@@ -7,6 +7,10 @@
 
 This repo is functionality complete — PRs and issues welcome!
 
+# Project documentation
+
+See [sococoin](https://github.com/socialement-competents/sococoin)
+
 # Getting started
 
 To get the Node server running locally:
